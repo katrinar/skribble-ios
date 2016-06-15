@@ -41,6 +41,18 @@ class CTViewController: UIViewController {
         }
     }
     
+    func postLoggedInNotification(currentUser: Dictionary<String, AnyObject>){
+        let notification = NSNotification(
+            name: Constants.kUserLoggedInNotification,
+            object: nil,
+            userInfo: ["user":currentUser]
+        )
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotification(notification)
+
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -19,6 +19,8 @@
 		544C6D611D073E8E0002FF5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 544C6D601D073E8E0002FF5D /* Assets.xcassets */; };
 		544C6D641D073E8E0002FF5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 544C6D621D073E8E0002FF5D /* LaunchScreen.storyboard */; };
 		544C6D6C1D073EF70002FF5D /* CTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C6D6B1D073EF70002FF5D /* CTViewController.swift */; };
+		54A192DD1D107E8E002A6B62 /* CTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A192DC1D107E8E002A6B62 /* CTButton.swift */; };
+		54A192DF1D1083EC002A6B62 /* CTCreatePlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */; };
 		54E391561D0B3AA700020376 /* CTLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E391551D0B3AA700020376 /* CTLoginViewController.swift */; };
 		54E391581D0B3ADF00020376 /* CTRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E391571D0B3ADF00020376 /* CTRegisterViewController.swift */; };
 		54E3915A1D0B3ADF00020376 /* CTAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E391591D0B3ADF00020376 /* CTAccountViewController.swift */; };
@@ -39,6 +41,8 @@
 		544C6D631D073E8E0002FF5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		544C6D651D073E8E0002FF5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		544C6D6B1D073EF70002FF5D /* CTViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTViewController.swift; sourceTree = "<group>"; };
+		54A192DC1D107E8E002A6B62 /* CTButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTButton.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/Views/CTButton.swift"; sourceTree = "<group>"; };
+		54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTCreatePlaceViewController.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/CTCreatePlaceViewController.swift"; sourceTree = "<group>"; };
 		54E391551D0B3AA700020376 /* CTLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTLoginViewController.swift; path = "../../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/Account/CTLoginViewController.swift"; sourceTree = "<group>"; };
 		54E391571D0B3ADF00020376 /* CTRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTRegisterViewController.swift; sourceTree = "<group>"; };
 		54E391591D0B3ADF00020376 /* CTAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTAccountViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 		544C6D581D073E8E0002FF5D /* chat-ios */ = {
 			isa = PBXGroup;
 			children = (
+				54A192DB1D107E73002A6B62 /* Views */,
 				544C6D591D073E8E0002FF5D /* AppDelegate.swift */,
 				54051CA41D09EC5300FE7E76 /* Config.swift */,
 				544C6D6B1D073EF70002FF5D /* CTViewController.swift */,
@@ -141,8 +146,17 @@
 			children = (
 				54E391541D0B3A0200020376 /* Account */,
 				54051C921D07478400FE7E76 /* CTMapViewController.swift */,
+				54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		54A192DB1D107E73002A6B62 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				54A192DC1D107E8E002A6B62 /* CTButton.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		54E391541D0B3A0200020376 /* Account */ = {
@@ -280,8 +294,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				54E391581D0B3ADF00020376 /* CTRegisterViewController.swift in Sources */,
+				54A192DF1D1083EC002A6B62 /* CTCreatePlaceViewController.swift in Sources */,
 				54051C9C1D074FCD00FE7E76 /* CTPlace.swift in Sources */,
 				54051CA71D09EDEE00FE7E76 /* CTProfile.swift in Sources */,
+				54A192DD1D107E8E002A6B62 /* CTButton.swift in Sources */,
 				54E3915A1D0B3ADF00020376 /* CTAccountViewController.swift in Sources */,
 				54051C991D07493800FE7E76 /* APIManager.swift in Sources */,
 				54051C941D07478400FE7E76 /* CTMapViewController.swift in Sources */,

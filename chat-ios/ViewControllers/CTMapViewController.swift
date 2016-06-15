@@ -15,6 +15,7 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     var mapView: MKMapView!
     var locationManager: CLLocationManager!
     var places = Array<CTPlace>()
+    var btncreatePlace: UIButton!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -24,6 +25,13 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.title = "Map"
         self.tabBarItem.image = UIImage(named: "globe_icon.png")
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self,
+                                       selector: #selector(CTMapViewController.placeCreated(_:)),
+                                       name: Constants.kPlaceCreatedNotification,
+                                       object: nil)
+        
     }
     
     override func loadView() {
@@ -35,6 +43,17 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
         self.mapView = MKMapView(frame: frame)
         view.addSubview(mapView)
         
+        let padding = CGFloat(20)
+        let height = CGFloat(44)
+        
+        self.btncreatePlace = CTButton(frame: CGRect(x: padding, y: -height, width: frame.size.width-2*padding, height: height))
+        self.btncreatePlace.setTitle("Create Place", forState: .Normal)
+        self.btncreatePlace.addTarget(self,
+                                      action: #selector(CTMapViewController.createPlace),
+                                      forControlEvents: .TouchUpInside)
+        self.btncreatePlace.alpha = 0 //initially hidden
+        view.addSubview(self.btncreatePlace)
+        
         self.view = view
     }
 
@@ -44,6 +63,85 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if (CTMapViewController.currentUser.id == nil){
+            return
+        }
+        
+        if (self.btncreatePlace.alpha == 1){
+            return
+        }
+        
+        self.showCreateButton()
+        
+    }
+    
+    func placeCreated(notification: NSNotification){
+        if let place = notification.userInfo!["place"] as? CTPlace {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.mapView.addAnnotation(place)
+                
+                let ctr = CLLocationCoordinate2DMake(place.lat, place.lng)
+                self.mapView.setCenterCoordinate(ctr, animated: true)
+            })
+        }
+    }
+    
+    func createPlace(){
+        print("createPlace")
+        let createPlaceVc = CTCreatePlaceViewController()
+        self.presentViewController(createPlaceVc, animated: true, completion: nil)
+    }
+    
+    //MARK: - userLoggedIn Notification
+    override func userLoggedIn(notification: NSNotification){
+        super.userLoggedIn(notification)
+        
+//        let isVisible = (self.view.window == nil) ? false : true
+        
+        if (CTMapViewController.currentUser.id == nil){
+            return
+        }
+        
+        print("CTMapViewController: userLoggedIn")
+
+        if (self.view.window == nil){ //not on screen, ignore
+            return
+        }
+        self.showCreateButton()
+//        self.btncreatePlace.alpha = 1
+//        UIView.animateWithDuration(1.25,
+//                                   delay: 0,
+//                                   usingSpringWithDamping: 0.5,
+//                                   initialSpringVelocity: 0,
+//                                   options: UIViewAnimationOptions.CurveEaseInOut,
+//                                   animations: {
+//                                    var frame = self.btncreatePlace.frame
+//                                    frame.origin.y = 20
+//                                    self.btncreatePlace.frame = frame
+//                                    
+//            }, completion: nil)
+
+    }
+    
+    func showCreateButton(){
+        self.btncreatePlace.alpha = 1
+        UIView.animateWithDuration(1.25,
+                                   delay: 0,
+                                   usingSpringWithDamping: 0.5,
+                                   initialSpringVelocity: 0,
+                                   options: UIViewAnimationOptions.CurveEaseInOut,
+                                   animations: {
+                                    var frame = self.btncreatePlace.frame
+                                    frame.origin.y = 20
+                                    self.btncreatePlace.frame = frame
+                                    
+            }, completion: nil)
 
     }
     
