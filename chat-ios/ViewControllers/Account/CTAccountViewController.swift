@@ -49,13 +49,13 @@ class CTAccountViewController: CTViewController {
     }
     
     func loadAccountView(frame: CGRect, view: UIView){
-        let padding = CGFloat(20)
+        let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
 //        let height = CGFloat(44)
 //        let bgColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.65)
 //        let whiteColor = UIColor.whiteColor().CGColor
 //        let font = UIFont(name: "Heiti SC", size: 18)
-        let y = CGFloat(120)
+        let y = CGFloat(Constants.origin_y)
         
         let nameLabel = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 22))
         nameLabel.text = CTViewController.currentUser.email
@@ -66,13 +66,13 @@ class CTAccountViewController: CTViewController {
     
     func loadSignupView(frame: CGRect, view: UIView){
         
-        let padding = CGFloat(20)
+        let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
         let height = CGFloat(44)
         let bgColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.65)
         let whiteColor = UIColor.whiteColor().CGColor
         let font = UIFont(name: "Heiti SC", size: 18)
-        var y = CGFloat(120)
+        var y = CGFloat(Constants.origin_y)
         
         let buttonTitles = ["Sign Up", "Login"]
         for btnTitle in buttonTitles {

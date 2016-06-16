@@ -50,7 +50,6 @@ class CTViewController: UIViewController {
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotification(notification)
-
     }
     
 

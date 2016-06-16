@@ -23,10 +23,7 @@ class CTButton: UIButton {
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 0.5*frame.size.height
         self.titleLabel?.font = UIFont(name: "Arial", size: 16)
-
-       
         
     }
- 
 
 }

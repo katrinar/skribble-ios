@@ -15,15 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        
         let frame = UIScreen.mainScreen().bounds
         self.window = UIWindow(frame: frame)
         
         let mapVc = CTMapViewController()
+        let mapNavCtr = UINavigationController(rootViewController: mapVc)
+        
         let accountVc = CTAccountViewController()
         let accountNavCtr = UINavigationController(rootViewController: accountVc)
+        
         let tabCtr = UITabBarController()
-        tabCtr.viewControllers = [mapVc, accountNavCtr]
+        tabCtr.viewControllers = [mapNavCtr, accountNavCtr]
         
         self.window?.rootViewController = tabCtr
         self.window?.makeKeyAndVisible()
@@ -36,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         APIManager.checkCurrentUser { response in
             if let currentUserInfo = response["currentUser"] as? Dictionary<String, AnyObject>{
                 print("\(currentUserInfo)")
-                
                 
                 let currentUser = CTProfile()
                 currentUser.populate(currentUserInfo)

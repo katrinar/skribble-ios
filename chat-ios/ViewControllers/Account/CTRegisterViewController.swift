@@ -17,26 +17,22 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
         let view = UIView(frame: frame)
         view.backgroundColor = UIColor.yellowColor()
         
-        let padding = CGFloat(20)
+        let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
         let height = CGFloat(32)
-        var y = CGFloat(120)
-        let font = UIFont(name: "Heiti SC", size: 18)
+        var y = CGFloat(Constants.origin_y)
 
         let fieldNames = ["Username", "Email", "Password"]
         for fieldName in fieldNames {
             
-            let field = UITextField(frame: CGRect(x: padding, y: y, width: width, height: height))
+            let field = CTTextField(frame: CGRect(x: padding, y: y, width: width, height: height))
             field.delegate = self
             field.placeholder = fieldName
-            field.font = font
-            field.autocorrectionType = .No
+
             let isPassword = (fieldName == "Password")
             field.secureTextEntry = (isPassword)
             field.returnKeyType = (isPassword) ? .Join : .Next
-            let line = UIView(frame: CGRect(x: 0, y: height-1, width: width, height: 1))
-            line.backgroundColor = .whiteColor()
-            field.addSubview(line)
+
             view.addSubview(field)
             self.textFields.append(field)
             y += height+padding
