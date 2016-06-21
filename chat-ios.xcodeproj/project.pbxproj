@@ -15,6 +15,7 @@
 		54051CA11D09D36D00FE7E76 /* profile_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54051CA01D09D36D00FE7E76 /* profile_icon@2x.png */; };
 		54051CA51D09EC5400FE7E76 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54051CA41D09EC5300FE7E76 /* Config.swift */; };
 		54051CA71D09EDEE00FE7E76 /* CTProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54051CA61D09EDEE00FE7E76 /* CTProfile.swift */; };
+		542460921D19ADD000DD8BFA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 542460911D19ADD000DD8BFA /* GoogleService-Info.plist */; };
 		544C6D5A1D073E8E0002FF5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C6D591D073E8E0002FF5D /* AppDelegate.swift */; };
 		544C6D611D073E8E0002FF5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 544C6D601D073E8E0002FF5D /* Assets.xcassets */; };
 		544C6D641D073E8E0002FF5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 544C6D621D073E8E0002FF5D /* LaunchScreen.storyboard */; };
@@ -38,6 +39,7 @@
 		54051CA01D09D36D00FE7E76 /* profile_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_icon@2x.png"; sourceTree = "<group>"; };
 		54051CA41D09EC5300FE7E76 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Config.swift; path = "../../../../Katrina/Desktop/chat-ios/chat-ios/Config.swift"; sourceTree = "<group>"; };
 		54051CA61D09EDEE00FE7E76 /* CTProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTProfile.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/models/CTProfile.swift"; sourceTree = "<group>"; };
+		542460911D19ADD000DD8BFA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		544C6D561D073E8E0002FF5D /* chat-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "chat-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		544C6D591D073E8E0002FF5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544C6D601D073E8E0002FF5D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				544C6D711D0746CC0002FF5D /* ViewControllers */,
 				544C6D601D073E8E0002FF5D /* Assets.xcassets */,
 				544C6D621D073E8E0002FF5D /* LaunchScreen.storyboard */,
+				542460911D19ADD000DD8BFA /* GoogleService-Info.plist */,
 				544C6D651D073E8E0002FF5D /* Info.plist */,
 			);
 			path = "chat-ios";
@@ -185,12 +188,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 544C6D681D073E8E0002FF5D /* Build configuration list for PBXNativeTarget "chat-ios" */;
 			buildPhases = (
-				25CDF5FDF516ED4BFADCE3A0 /* 📦 Check Pods Manifest.lock */,
+				4F7243F291D7327D1E1C7FFA /* 📦 Check Pods Manifest.lock */,
+				25CDF5FDF516ED4BFADCE3A0 /* [CP] Check Pods Manifest.lock */,
 				544C6D521D073E8E0002FF5D /* Sources */,
 				544C6D531D073E8E0002FF5D /* Frameworks */,
 				544C6D541D073E8E0002FF5D /* Resources */,
-				15F96F7DB871176871A675C7 /* 📦 Embed Pods Frameworks */,
-				66B5DFEEE760C22205C44007 /* 📦 Copy Pods Resources */,
+				15F96F7DB871176871A675C7 /* [CP] Embed Pods Frameworks */,
+				66B5DFEEE760C22205C44007 /* [CP] Copy Pods Resources */,
+				A6826DF4B41978CC8CE97D4F /* 📦 Embed Pods Frameworks */,
+				005A9062563496E7C8583214 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -242,6 +248,7 @@
 			files = (
 				54051C9F1D09D22C00FE7E76 /* globe_icon@2x.png in Resources */,
 				54051CA11D09D36D00FE7E76 /* profile_icon@2x.png in Resources */,
+				542460921D19ADD000DD8BFA /* GoogleService-Info.plist in Resources */,
 				544C6D641D073E8E0002FF5D /* LaunchScreen.storyboard in Resources */,
 				544C6D611D073E8E0002FF5D /* Assets.xcassets in Resources */,
 			);
@@ -250,14 +257,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		15F96F7DB871176871A675C7 /* 📦 Embed Pods Frameworks */ = {
+		005A9062563496E7C8583214 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-chat-ios/Pods-chat-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		15F96F7DB871176871A675C7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,7 +287,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-chat-ios/Pods-chat-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		25CDF5FDF516ED4BFADCE3A0 /* 📦 Check Pods Manifest.lock */ = {
+		25CDF5FDF516ED4BFADCE3A0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4F7243F291D7327D1E1C7FFA /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,19 +317,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		66B5DFEEE760C22205C44007 /* 📦 Copy Pods Resources */ = {
+		66B5DFEEE760C22205C44007 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-chat-ios/Pods-chat-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A6826DF4B41978CC8CE97D4F /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-chat-ios/Pods-chat-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -424,7 +476,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "chat-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kat.chat-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.velocity360.chat-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -436,7 +488,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "chat-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kat.chat-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.velocity360.chat-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

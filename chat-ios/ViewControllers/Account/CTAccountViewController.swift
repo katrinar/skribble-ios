@@ -69,9 +69,6 @@ class CTAccountViewController: CTViewController {
         let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
         let height = CGFloat(44)
-        let bgColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.65)
-        let whiteColor = UIColor.whiteColor().CGColor
-        let font = UIFont(name: "Heiti SC", size: 18)
         var y = CGFloat(Constants.origin_y)
         
         let buttonTitles = ["Sign Up", "Login"]
