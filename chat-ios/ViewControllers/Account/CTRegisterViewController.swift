@@ -74,7 +74,6 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
                 return true
             }
             
-//            print("\(profileInfo)")
 
             APIManager.postRequest("/api/profile",
                                    params: profileInfo,
@@ -84,12 +83,9 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
                                     
                                     if let result = response!["result"] as? Dictionary<String, AnyObject>{
                                         
-//                                        CTViewController.currentUser.populate(result)
-                                        
                                         dispatch_async(dispatch_get_main_queue(), {
                                             
                                             self.postLoggedInNotification(result)
-                                            
                                             
                                             let accountVc = CTAccountViewController()
                                             self.navigationController?.pushViewController(accountVc, animated: true)
@@ -100,6 +96,7 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
             
             return true
         }
+        
         let nextField = self.textFields[index+1]
         nextField.becomeFirstResponder()
         

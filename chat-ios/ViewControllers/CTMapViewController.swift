@@ -226,6 +226,7 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
         print("calloutAccessoryControlTapped: \(place.name)")
         
         let chatVc = CTChatViewController()
+        chatVc.place = place
         self.navigationController?.pushViewController(chatVc, animated: true)
     }
     
