@@ -104,11 +104,19 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                     post.populate(postInfo)
                     self.posts.append(post)
                     
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.chatTable.reloadData()
-                    })
+                  
                 }
+                
+                print("\(self.posts.count) POSTS")
+                self.posts.sortInPlace {
+                    $0.timestamp.compare($1.timestamp) == .OrderedAscending
+                }
+                
             }
+        
+            dispatch_async(dispatch_get_main_queue(), {
+                self.chatTable.reloadData()
+            })
         })
     }
     

@@ -24,9 +24,9 @@ class CTPost: NSObject {
         
         if let _timestamp = postInfo["timestamp"] as? String {
             
-            let ts = Double(_timestamp)
-            let date = NSDate(timeIntervalSince1970: ts!)
-            print("DATE: \(date)")
+            let ts = NSTimeInterval(_timestamp)
+            self.timestamp = NSDate(timeIntervalSince1970: ts!)
+            print("DATE: \(self.timestamp)")
 
         }
     }
