@@ -25,6 +25,7 @@
 		54E391581D0B3ADF00020376 /* CTRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E391571D0B3ADF00020376 /* CTRegisterViewController.swift */; };
 		54E3915A1D0B3ADF00020376 /* CTAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E391591D0B3ADF00020376 /* CTAccountViewController.swift */; };
 		54EC16921D1AF6CB001B2997 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54EC16911D1AF6CB001B2997 /* GoogleService-Info.plist */; };
+		54EC16941D1B1650001B2997 /* CTPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC16931D1B1650001B2997 /* CTPost.swift */; };
 		54EE81261D1319640058EA82 /* CTTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE81251D1319640058EA82 /* CTTextField.swift */; };
 		54EE812A1D1335090058EA82 /* CTChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE81291D1335090058EA82 /* CTChatViewController.swift */; };
 		54EE812C1D1337EF0058EA82 /* CTTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE812B1D1337EF0058EA82 /* CTTableViewCell.swift */; };
@@ -51,6 +52,7 @@
 		54E391571D0B3ADF00020376 /* CTRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTRegisterViewController.swift; sourceTree = "<group>"; };
 		54E391591D0B3ADF00020376 /* CTAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTAccountViewController.swift; sourceTree = "<group>"; };
 		54EC16911D1AF6CB001B2997 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		54EC16931D1B1650001B2997 /* CTPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTPost.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/models/CTPost.swift"; sourceTree = "<group>"; };
 		54EE81251D1319640058EA82 /* CTTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTTextField.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/Views/CTTextField.swift"; sourceTree = "<group>"; };
 		54EE81291D1335090058EA82 /* CTChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTChatViewController.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/CTChatViewController.swift"; sourceTree = "<group>"; };
 		54EE812B1D1337EF0058EA82 /* CTTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTTableViewCell.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/Views/CTTableViewCell.swift"; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			children = (
 				54051C9B1D074FCD00FE7E76 /* CTPlace.swift */,
 				54051CA61D09EDEE00FE7E76 /* CTProfile.swift */,
+				54EC16931D1B1650001B2997 /* CTPost.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				54A192DF1D1083EC002A6B62 /* CTCreatePlaceViewController.swift in Sources */,
 				54051C9C1D074FCD00FE7E76 /* CTPlace.swift in Sources */,
 				54051CA71D09EDEE00FE7E76 /* CTProfile.swift in Sources */,
+				54EC16941D1B1650001B2997 /* CTPost.swift in Sources */,
 				54EE81261D1319640058EA82 /* CTTextField.swift in Sources */,
 				54EE812C1D1337EF0058EA82 /* CTTableViewCell.swift in Sources */,
 				54EE812A1D1335090058EA82 /* CTChatViewController.swift in Sources */,
