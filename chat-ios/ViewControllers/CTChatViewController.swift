@@ -15,10 +15,13 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     var firebase: FIRDatabaseReference! // establishes connection and maintains connection to DB
     var _refHandle: UInt!
     
+    //MARK: - Properties: 
+    
     var place: CTPlace!
     var chatTable: UITableView!
     var posts =  Array<CTPost>()
     var keys = Array<String>()
+    
     var bottomView: UIView!
     var messageField: UITextField!
     
@@ -30,11 +33,29 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
         self.hidesBottomBarWhenPushed = true
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(CTChatViewController.shiftKeyboardUp(_:)),
+            name: UIKeyboardWillShowNotification,
+            object: nil
+        )
+        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(CTChatViewController.shiftKeyboardDown(_:)),
+            name: UIKeyboardWillHideNotification,
+            object: nil
+        )
+       
     }
     
     override func loadView(){
-        self.edgesForExtendedLayout = .None
+//        self.edgesForExtendedLayout = .None
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
         view.backgroundColor = .grayColor()
@@ -47,6 +68,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         let height = CGFloat(44)
         let width = frame.size.width
+        
         let y = frame.size.height //offscreen bounds; will animate in
         self.bottomView = UIView(frame: CGRect(x: 0, y: y, width: width, height: height))
         self.bottomView.autoresizingMask = .FlexibleTopMargin
@@ -87,7 +109,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         print("viewWillAppear:")
         
         //Listen for new messages in the FB DB
-        self._refHandle = self.firebase.child(self.place.id).observeEventType(.Value, withBlock: { (snapshot) -> Void in
+        self._refHandle = self.firebase.child(self.place.id).queryLimitedToLast(25).observeEventType(.Value, withBlock: { (snapshot) -> Void in
             
             if let payload = snapshot.value as? Dictionary<String, AnyObject> {
                 
@@ -103,20 +125,18 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                     post.id = key
                     post.populate(postInfo)
                     self.posts.append(post)
-                    
-                  
                 }
                 
                 print("\(self.posts.count) POSTS")
                 self.posts.sortInPlace {
                     $0.timestamp.compare($1.timestamp) == .OrderedAscending
                 }
-                
-            }
         
-            dispatch_async(dispatch_get_main_queue(), {
-                self.chatTable.reloadData()
-            })
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.chatTable.reloadData()
+                })
+        
+            }
         })
     }
     
@@ -138,8 +158,9 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         self.firebase.removeObserverWithHandle(self._refHandle)
     }
     
-    //MARK: - Custom Function
     func postMessage(){
+        
+        messageField.resignFirstResponder()
         
         //Push data to Firebase Database
         let timestamp = NSDate().timeIntervalSince1970
@@ -152,10 +173,36 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         self.firebase.child(self.place.id).childByAutoId().setValue(post)
         
+        self.messageField.text = nil
+    }
+    
+    //MARK: - KeyboardNotification
+    func shiftKeyboardUp(notification: NSNotification){
+    
+        if let keyboardFrame = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue() {
+            print("\(notification.userInfo!)")
+            
+            var frame = self.bottomView.frame
+            frame.origin.y = keyboardFrame.origin.y-frame.size.height
+            self.bottomView.frame = frame
+        }
+    }
+    
+    func shiftKeyboardDown(notificaion: NSNotification){
+        var frame = self.bottomView.frame
+        frame.origin.y = self.view.frame.size.height-frame.size.height
+        self.bottomView.frame = frame
+    }
+    
+    //MARK: - TextField Delegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        messageField.resignFirstResponder()
+        
+        self.postMessage()
+        return true
     }
     
     //MARK: - TableViewDelegate
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.posts.count
     }
@@ -172,13 +219,8 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         print("didSelectRowAtIndexPath")
     }
     
-    //MARK: - TextField Delegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        print("textFieldShouldReturn: ")
-        messageField.resignFirstResponder()
-        self.postMessage()
-        
-        return true
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.messageField.resignFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
