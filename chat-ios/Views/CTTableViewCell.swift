@@ -35,7 +35,7 @@ class CTTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.messageLabel)
         
         let line = UIView(frame: CGRect(x: 12, y: 58, width: frame.size.width-24, height: 1))
-        line.backgroundColor = .blackColor()
+        line.backgroundColor = .darkGrayColor()
         self.addSubview(line)
         
        
