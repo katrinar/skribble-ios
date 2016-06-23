@@ -15,6 +15,7 @@ class CTPost: NSObject {
     var message: String!
     var place: String!
     var timestamp: NSDate!
+    var formattedDate: String!
     
     func populate(postInfo: Dictionary<String, AnyObject>){
         let keys = ["message", "place", "from"]
@@ -27,6 +28,10 @@ class CTPost: NSObject {
             let ts = NSTimeInterval(_timestamp)
             self.timestamp = NSDate(timeIntervalSince1970: ts!)
             print("DATE: \(self.timestamp)")
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MMM dd, yyyy" // "May 16, 2015"
+            self.formattedDate = dateFormatter.stringFromDate(self.timestamp)
 
         }
     }

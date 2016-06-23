@@ -210,8 +210,9 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let post = self.posts[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath)
-        cell.textLabel?.text = post.message
+        let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath) as! CTTableViewCell
+        cell.messageLabel.text = post.message
+        cell.dateLabel.text = post.formattedDate
         return cell
     }
     
