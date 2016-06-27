@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import Cloudinary
 
-class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, CLUploaderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate, CLUploaderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //Firebase Config:
     var firebase: FIRDatabaseReference! // establishes connection and maintains connection to DB
@@ -117,6 +117,10 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(animated: Bool) {
         print("viewWillAppear:")
         
+        if (self._refHandle != nil){
+            return
+        }
+        
         //Listen for new messages in the FB DB
         self._refHandle = self.firebase.child(self.place.id).queryLimitedToLast(25).observeEventType(.Value, withBlock: { (snapshot) -> Void in
             
@@ -196,7 +200,21 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                             
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.selectedImage = nil
-                                self.postMessage()
+                                
+                                var imageUrl = ""
+                                if let secure_url = dataDictionary["secure_url"] as? String{
+                                    imageUrl = secure_url
+                                }
+                                
+//                                let post = [
+//                                    "from": CTViewController.currentUser.id!,
+//                                    "message": self.messageField.text!,
+//                                    "timestamp": "\(NSDate().timeIntervalSince1970)",
+//                                    "place":self.place.id,
+//                                    "image": imageUrl
+//                                ]
+                                
+                                self.postMessageDict(self.preparePostInfo(imageUrl))
                                 })
             },
                         
@@ -241,25 +259,31 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     //MARK: - Post Message
     
-    func postMessage(){
+    func preparePostInfo(imageUrl: String) -> Dictionary<String, AnyObject>{
+        let postInfo = [
+            "from": CTViewController.currentUser.id!,
+            "message": self.messageField.text!,
+            "timestamp": "\(NSDate().timeIntervalSince1970)",
+            "place":self.place.id,
+            "image": imageUrl
+        ]
         
+        return postInfo
+    }
+    
+    func postMessage(){
+        self.postMessageDict(self.preparePostInfo(""))
+        self.messageField.text = nil
+    }
+    
+    func postMessageDict(postInfo: Dictionary<String, AnyObject>){
         if (self.selectedImage != nil){ //upload image first
             self.uploadImage()
             return
         }
         
         //Push data to Firebase Database
-        let timestamp = NSDate().timeIntervalSince1970
-        let post = [
-            "from": CTViewController.currentUser.id!,
-            "message": self.messageField.text!,
-            "timestamp": "\(timestamp)",
-            "place":self.place.id
-        ]
-        
-        self.firebase.child(self.place.id).childByAutoId().setValue(post)
-        
-        self.messageField.text = nil
+        self.firebase.child(self.place.id).childByAutoId().setValue(postInfo)
     }
     
     //MARK: - UIImagePickerDelegate
@@ -297,9 +321,8 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     //MARK: - TextField Delegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        messageField.resignFirstResponder()
         
-        self.postMessage()
+        self.postMessageDict(self.preparePostInfo(""))
         return true
     }
     
