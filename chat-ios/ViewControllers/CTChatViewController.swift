@@ -26,6 +26,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     var bottomView: UIView!
     var messageField: UITextField!
     var selectedImage: UIImage?
+    var cameraBtn: UIButton!
     
     
     //MARK: - Lifecycle Methods
@@ -79,15 +80,17 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         let padding = CGFloat(6)
         let btnWidth = CGFloat(80)
-        height = height-2*padding
         
-        let cameraBtn = UIButton(type: .Custom)
-        cameraBtn.frame = CGRect(x: padding, y: padding, width: height, height: height)
-        cameraBtn.backgroundColor = .redColor()
-        cameraBtn.addTarget(self, action: #selector(CTChatViewController.showCameraOptions(_:)), forControlEvents: .TouchUpInside)
+        self.cameraBtn = UIButton(type: .Custom)
+        self.cameraBtn.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        self.cameraBtn.backgroundColor = .redColor()
+        self.cameraBtn.addTarget(self, action: #selector(CTChatViewController.showCameraOptions(_:)), forControlEvents: .TouchUpInside)
         self.bottomView.addSubview(cameraBtn)
         
-        self.messageField = UITextField(frame: CGRect(x: padding+40, y: padding, width: width-2*padding-btnWidth-40, height: height))
+        //Message Text Field
+        height = height-2*padding
+        
+        self.messageField = UITextField(frame: CGRect(x: padding+44, y: padding, width: width-2*padding-btnWidth-44, height: height))
         self.messageField.borderStyle = .RoundedRect
         self.messageField.placeholder = "Post a message"
         self.messageField.delegate = self
@@ -148,7 +151,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                 dispatch_async(dispatch_get_main_queue(), {
                     self.chatTable.reloadData()
                 })
-        
             }
         })
     }
@@ -175,6 +177,16 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillDisappear(animated: Bool) {
         self.firebase.removeObserverWithHandle(self._refHandle)
+    }
+    
+    //observer
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            let post = object as! CTPost
+            post.removeObserver(self, forKeyPath: "imageData")
+            self.chatTable.reloadData()
+        })
     }
     
    //MARK: - UploadImage
@@ -206,14 +218,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                                     imageUrl = secure_url
                                 }
                                 
-//                                let post = [
-//                                    "from": CTViewController.currentUser.id!,
-//                                    "message": self.messageField.text!,
-//                                    "timestamp": "\(NSDate().timeIntervalSince1970)",
-//                                    "place":self.place.id,
-//                                    "image": imageUrl
-//                                ]
-                                
                                 self.postMessageDict(self.preparePostInfo(imageUrl))
                                 })
             },
@@ -243,6 +247,19 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             
             dispatch_async(dispatch_get_main_queue(), {
                 self.launchPhotoPicker(.PhotoLibrary)
+            })
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Remove Image", style: .Default, handler: { action in
+           
+            dispatch_async(dispatch_get_main_queue(), {
+                self.selectedImage = nil
+                self.cameraBtn.setImage(nil, forState: .Normal)
+                
+                UIView.transitionWithView(self.cameraBtn, duration: 0.3, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {
+                    self.cameraBtn.setImage(nil, forState: .Normal)
+                    self.cameraBtn.alpha = 1.0
+                    }, completion: nil)
             })
         }))
         
@@ -277,10 +294,13 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     }
     
     func postMessageDict(postInfo: Dictionary<String, AnyObject>){
+        messageField.resignFirstResponder()
         if (self.selectedImage != nil){ //upload image first
             self.uploadImage()
             return
         }
+        
+        self.messageField.text = nil
         
         //Push data to Firebase Database
         self.firebase.child(self.place.id).childByAutoId().setValue(postInfo)
@@ -294,11 +314,23 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             self.selectedImage = image
         }
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismissViewControllerAnimated(true, completion: {
+            UIView.transitionWithView(
+                self.cameraBtn,
+                duration: 0.3,
+                options: UIViewAnimationOptions.TransitionFlipFromLeft,
+                animations: {
+                    self.cameraBtn.setImage(self.selectedImage, forState: .Normal)
+                    self.cameraBtn.alpha = 1.0
+                },
+                completion: nil)
+        })
     }
    
     func imagePickerControllerDidCancel(picker: UIImagePickerController){
         picker.dismissViewControllerAnimated(true, completion: nil)
+           
+      
     }
     
     //MARK: - KeyboardNotification
@@ -337,8 +369,23 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath) as! CTTableViewCell
         cell.messageLabel.text = post.message
         cell.dateLabel.text = post.formattedDate
+        
+        if (post.image.characters.count == 0){
+            return cell
+        }
+        
+        if (post.imageData != nil){
+            cell.imageView?.image = post.imageData
+            return cell
+        }
+        
+        post.addObserver(self, forKeyPath: "imageData", options: .Initial, context: nil)
+        post.fetchImage()
+       
         return cell
     }
+    
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("didSelectRowAtIndexPath")

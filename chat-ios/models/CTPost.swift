@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class CTPost: NSObject {
     
@@ -14,11 +15,14 @@ class CTPost: NSObject {
     var from: String!
     var message: String!
     var place: String!
+    var image: String!
+    var imageData: UIImage?
     var timestamp: NSDate!
     var formattedDate: String!
+    var isFetching = false
     
     func populate(postInfo: Dictionary<String, AnyObject>){
-        let keys = ["message", "place", "from"]
+        let keys = ["message", "place", "from", "image"]
         for key in keys {
             self.setValue(postInfo[key], forKey: key)
         }
@@ -33,6 +37,33 @@ class CTPost: NSObject {
             dateFormatter.dateFormat = "MMM dd, yyyy" // "May 16, 2015"
             self.formattedDate = dateFormatter.stringFromDate(self.timestamp)
 
+        }
+    }
+    
+    func fetchImage(){
+        if (self.image.characters.count == 0){
+            return
+        }
+        
+        if (self.imageData != nil){
+            return
+        }
+        
+        if (self.isFetching == true){
+            return
+        }
+        
+        self.isFetching = true
+        Alamofire.request(.GET, self.image, parameters: nil).response { (req, res, data, error) in
+            self.isFetching = false
+            if (error != nil){
+                return
+            }
+            
+            if let img = UIImage(data: data!){
+                self.imageData = img
+            }
+            
         }
     }
 

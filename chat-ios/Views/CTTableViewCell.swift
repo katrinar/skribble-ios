@@ -25,7 +25,7 @@ class CTTableViewCell: UITableViewCell {
         
         let y = CGFloat(12)
     
-         self.dateLabel = UILabel(frame: CGRect(x: 12, y: y, width: frame.size.width-24, height: 22))
+        self.dateLabel = UILabel(frame: CGRect(x: 12, y: y, width: frame.size.width-24, height: 22))
         self.dateLabel.backgroundColor = .whiteColor()
         self.dateLabel.font = UIFont(name: "Heiti SC", size: 12)
         self.contentView.addSubview(self.dateLabel)
@@ -37,8 +37,6 @@ class CTTableViewCell: UITableViewCell {
 //        let line = UIView(frame: CGRect(x: 12, y: 58, width: frame.size.width-24, height: 1))
 //        line.backgroundColor = .darkGrayColor()
 //        self.addSubview(line)
-        
-       
         
     }
     
