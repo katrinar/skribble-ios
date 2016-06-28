@@ -19,6 +19,7 @@
 		544C6D611D073E8E0002FF5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 544C6D601D073E8E0002FF5D /* Assets.xcassets */; };
 		544C6D641D073E8E0002FF5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 544C6D621D073E8E0002FF5D /* LaunchScreen.storyboard */; };
 		544C6D6C1D073EF70002FF5D /* CTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C6D6B1D073EF70002FF5D /* CTViewController.swift */; };
+		54618B651D22F71A00B3EBCD /* camera_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54618B641D22F71A00B3EBCD /* camera_icon@2x.png */; };
 		54A192DD1D107E8E002A6B62 /* CTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A192DC1D107E8E002A6B62 /* CTButton.swift */; };
 		54A192DF1D1083EC002A6B62 /* CTCreatePlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */; };
 		54E391561D0B3AA700020376 /* CTLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E391551D0B3AA700020376 /* CTLoginViewController.swift */; };
@@ -46,6 +47,7 @@
 		544C6D631D073E8E0002FF5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		544C6D651D073E8E0002FF5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		544C6D6B1D073EF70002FF5D /* CTViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTViewController.swift; sourceTree = "<group>"; };
+		54618B641D22F71A00B3EBCD /* camera_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon@2x.png"; sourceTree = "<group>"; };
 		54A192DC1D107E8E002A6B62 /* CTButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTButton.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/Views/CTButton.swift"; sourceTree = "<group>"; };
 		54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTCreatePlaceViewController.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/CTCreatePlaceViewController.swift"; sourceTree = "<group>"; };
 		54E391551D0B3AA700020376 /* CTLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTLoginViewController.swift; path = "../../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/Account/CTLoginViewController.swift"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			children = (
 				54051C9E1D09D22C00FE7E76 /* globe_icon@2x.png */,
 				54051CA01D09D36D00FE7E76 /* profile_icon@2x.png */,
+				54618B641D22F71A00B3EBCD /* camera_icon@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			files = (
 				54051C9F1D09D22C00FE7E76 /* globe_icon@2x.png in Resources */,
 				54051CA11D09D36D00FE7E76 /* profile_icon@2x.png in Resources */,
+				54618B651D22F71A00B3EBCD /* camera_icon@2x.png in Resources */,
 				54EC16921D1AF6CB001B2997 /* GoogleService-Info.plist in Resources */,
 				544C6D641D073E8E0002FF5D /* LaunchScreen.storyboard in Resources */,
 				544C6D611D073E8E0002FF5D /* Assets.xcassets in Resources */,

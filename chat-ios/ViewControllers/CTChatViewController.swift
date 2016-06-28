@@ -83,8 +83,13 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         self.cameraBtn = UIButton(type: .Custom)
         self.cameraBtn.frame = CGRect(x: 0, y: 0, width: height, height: height)
-        self.cameraBtn.backgroundColor = .redColor()
-        self.cameraBtn.addTarget(self, action: #selector(CTChatViewController.showCameraOptions(_:)), forControlEvents: .TouchUpInside)
+        self.cameraBtn.backgroundColor = .clearColor()
+        self.cameraBtn.setImage(UIImage(named: "camera_icon.png"), forState: .Normal)
+        
+        self.cameraBtn.addTarget(
+            self,
+            action: #selector(CTChatViewController.showCameraOptions(_:)),
+            forControlEvents: .TouchUpInside)
         self.bottomView.addSubview(cameraBtn)
         
         //Message Text Field
@@ -267,8 +272,12 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                 self.selectedImage = nil
                 self.cameraBtn.setImage(nil, forState: .Normal)
                 
-                UIView.transitionWithView(self.cameraBtn, duration: 0.3, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {
-                    self.cameraBtn.setImage(nil, forState: .Normal)
+                UIView.transitionWithView(
+                    self.cameraBtn,
+                    duration: 0.3,
+                    options: UIViewAnimationOptions.TransitionFlipFromLeft,
+                    animations: {
+                        self.cameraBtn.setImage(UIImage(named: "camera_icon.png"), forState: .Normal)
                     self.cameraBtn.alpha = 1.0
                     }, completion: nil)
             })
@@ -314,7 +323,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     }
     
     func postMessageDict(postInfo: Dictionary<String, AnyObject>){
-        messageField.resignFirstResponder()
+        self.messageField.resignFirstResponder()
         if (self.selectedImage != nil){ //upload image first
             self.uploadImage()
             return
