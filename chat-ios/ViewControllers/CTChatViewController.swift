@@ -184,7 +184,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         dispatch_async(dispatch_get_main_queue(), {
             let post = object as! CTPost
-            post.removeObserver(self, forKeyPath: "imageData")
+            post.removeObserver(self, forKeyPath: "thumbnailData")
             self.chatTable.reloadData()
         })
     }
@@ -218,7 +218,18 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                                     imageUrl = secure_url
                                 }
                                 
-                                self.postMessageDict(self.preparePostInfo(imageUrl))
+                                
+                                //Generate thumbnail url:
+                                //https://res.cloudinary.com/hnhde1nnq/image/upload/t_thumb_250/v1467073098/q19hek7eo2ospnrg6qvw.jpg
+                                
+                                let thumbnailUrl = imageUrl.stringByReplacingOccurrencesOfString("/upload/", withString: "/upload/t_thumb_250/")
+                                
+                                let imageInfo = [
+                                    "original": imageUrl,
+                                    "thumb": thumbnailUrl
+                                ]
+                                
+                                self.postMessageDict(self.preparePostInfo(imageInfo))
                                 })
             },
                         
@@ -276,20 +287,29 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     //MARK: - Post Message
     
-    func preparePostInfo(imageUrl: String) -> Dictionary<String, AnyObject>{
-        let postInfo = [
-            "from": CTViewController.currentUser.id!,
-            "message": self.messageField.text!,
-            "timestamp": "\(NSDate().timeIntervalSince1970)",
-            "place":self.place.id,
-            "image": imageUrl
-        ]
+    func preparePostInfo(imageInfo: Dictionary<String, AnyObject>) -> Dictionary<String, AnyObject>{
+        
+        var postInfo = Dictionary<String, AnyObject>()
+        postInfo["from"] = CTViewController.currentUser.id!
+        postInfo["message"] = self.messageField.text!
+        postInfo["timestamp"] = "\(NSDate().timeIntervalSince1970)"
+        postInfo["place"] = self.place.id
+        postInfo["image"] = imageInfo
+        
+//        let postInfo = [
+//            "from": CTViewController.currentUser.id!,
+//            "message": self.messageField.text!,
+//            "timestamp": "\(NSDate().timeIntervalSince1970)",
+//            "place":self.place.id,
+//            "image": imageInfo
+//        ]
         
         return postInfo
     }
     
     func postMessage(){
-        self.postMessageDict(self.preparePostInfo(""))
+        let imageInfo = ["original": "", "thumb": ""]
+        self.postMessageDict(self.preparePostInfo(imageInfo))
         self.messageField.text = nil
     }
     
@@ -354,7 +374,9 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     //MARK: - TextField Delegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        self.postMessageDict(self.preparePostInfo(""))
+        let imageInfo = ["original":"","thumb": ""]
+        
+        self.postMessageDict(self.preparePostInfo(imageInfo))
         return true
     }
     
@@ -370,19 +392,23 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         cell.messageLabel.text = post.message
         cell.dateLabel.text = post.formattedDate
         
-        if (post.image.characters.count == 0){
+        if (post.thumbnailUrl.characters.count == 0){
             return cell
         }
         
-        if (post.imageData != nil){
-            cell.imageView?.image = post.imageData
+        if (post.thumbnailData != nil){
+            cell.thumbnail.image = post.thumbnailData
             return cell
         }
         
-        post.addObserver(self, forKeyPath: "imageData", options: .Initial, context: nil)
-        post.fetchImage()
+        post.addObserver(self, forKeyPath: "thumbnailData", options: .Initial, context: nil)
+        post.fetchThumbnail()
        
         return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CTTableViewCell.defaultHeight
     }
     
     
