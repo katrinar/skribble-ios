@@ -27,6 +27,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     var messageField: UITextField!
     var selectedImage: UIImage?
     var cameraBtn: UIButton!
+    var loaded = false
     
     
     //MARK: - Lifecycle Methods
@@ -66,10 +67,12 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         self.chatTable = UITableView(frame: frame, style: .Plain)
         self.chatTable.dataSource = self
         self.chatTable.delegate = self
+        self.chatTable.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        self.chatTable.showsVerticalScrollIndicator = false
         self.chatTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
         view.addSubview(self.chatTable)
         
-        var height = CGFloat(44)
+        var height = self.chatTable.contentInset.bottom
         let width = frame.size.width
         
         let y = frame.size.height //offscreen bounds; will animate in
@@ -155,6 +158,18 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
                 dispatch_async(dispatch_get_main_queue(), {
                     self.chatTable.reloadData()
+                    
+                    let lastIndexPath = NSIndexPath(forItem: self.posts.count-1, inSection: 0)
+                    
+                    self.chatTable.scrollToRowAtIndexPath(
+                        lastIndexPath,
+                        atScrollPosition: .Top,
+                        animated: self.loaded
+                    )
+                
+                    self.loaded = true
+                    
+        
                 })
             }
         })
@@ -163,6 +178,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     override func viewDidAppear(animated: Bool) {
         print("viewDidAppear")
         
+        //already on screen
         let bottomFrame = self.bottomView.frame
         if (bottomFrame.origin.y < self.view.frame.size.height){
             return
@@ -319,7 +335,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     func postMessage(){
         let imageInfo = ["original": "", "thumb": ""]
         self.postMessageDict(self.preparePostInfo(imageInfo))
-        self.messageField.text = nil
+        
     }
     
     func postMessageDict(postInfo: Dictionary<String, AnyObject>){
@@ -329,7 +345,16 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             return
         }
         
-        self.messageField.text = nil
+        self.messageField.text = ""
+
+        UIView.transitionWithView(
+            self.cameraBtn,
+            duration: 0.3,
+            options: UIViewAnimationOptions.TransitionFlipFromLeft,
+            animations: {
+                self.cameraBtn.setImage(UIImage(named: "camera_icon.png"), forState: .Normal)
+                self.cameraBtn.alpha = 1.0
+            }, completion: nil)
         
         //Push data to Firebase Database
         self.firebase.child(self.place.id).childByAutoId().setValue(postInfo)

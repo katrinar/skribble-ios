@@ -54,7 +54,7 @@ class CTPost: NSObject {
             print("DATE: \(self.timestamp)")
             
             let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MMM dd, yyyy" // "May 16, 2015"
+            dateFormatter.dateFormat = "MMMM dd, yyyy" // "May 16, 2015"
             self.formattedDate = dateFormatter.stringFromDate(self.timestamp)
 
         }
