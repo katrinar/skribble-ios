@@ -66,7 +66,6 @@ class CTAccountViewController: CTViewController {
         nameLabel.text = CTViewController.currentUser.email
         nameLabel.textColor = UIColor.whiteColor()
         view.addSubview(nameLabel)
-        
     }
     
     func loadSignupView(frame: CGRect, view: UIView){
@@ -94,19 +93,17 @@ class CTAccountViewController: CTViewController {
         
         if (buttonTitle == "sign up"){
             let registerVc = CTRegisterViewController()
+            registerVc.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem
             self.navigationController?.pushViewController(registerVc, animated: true)
         }
         
         if (buttonTitle == "login"){
             let loginVc = CTLoginViewController()
+            loginVc.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem
             self.navigationController?.pushViewController(loginVc, animated: true)
         }
     }
-    
-    func exit(){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+
     override func userLoggedIn(notification: NSNotification){
         super.userLoggedIn(notification)
         if (CTViewController.currentUser.id == nil){

@@ -87,6 +87,15 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
                                             
                                             self.postLoggedInNotification(result)
                                             
+                                            if (self.navigationItem.leftBarButtonItem == nil){
+                                                let accountVc = CTAccountViewController()
+                                                self.navigationController?.pushViewController(accountVc, animated: true)
+                                            }
+                                            else {
+                                                self.exit()
+                                            }
+
+                                            
                                             let accountVc = CTAccountViewController()
                                             self.navigationController?.pushViewController(accountVc, animated: true)
                                         })

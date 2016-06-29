@@ -21,16 +21,16 @@ class CTViewController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
       
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self,
-                                       selector: #selector(CTViewController.userLoggedIn(_:)),
-                                        name: Constants.kUserLoggedInNotification,
-                                        object: nil)
-        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(CTViewController.userLoggedIn(_:)),
+            name: Constants.kUserLoggedInNotification,
+            object: nil
+        )
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -72,7 +72,6 @@ class CTViewController: UIViewController {
             dispatch_async(dispatch_get_main_queue(), {
                 self.startLoginRegisterSequence()
             })
-            
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { action in
@@ -90,6 +89,9 @@ class CTViewController: UIViewController {
         self.presentViewController(navCtr, animated: true, completion: nil)
     }
     
+    func exit(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
