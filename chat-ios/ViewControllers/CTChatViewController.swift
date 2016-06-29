@@ -439,6 +439,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         cell.dateLabel.text = post.formattedDate
         
         if (post.thumbnailUrl.characters.count == 0){
+            cell.thumbnail.image = nil
             return cell
         }
         

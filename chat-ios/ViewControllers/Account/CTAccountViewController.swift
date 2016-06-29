@@ -22,7 +22,6 @@ class CTAccountViewController: CTViewController {
         self.title = ""
         self.tabBarItem.title = "Account"
         self.tabBarItem.image = UIImage(named: "profile_icon.png")
-
     }
     
     override func loadView() {

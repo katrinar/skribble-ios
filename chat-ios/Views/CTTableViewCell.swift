@@ -33,7 +33,8 @@ class CTTableViewCell: UITableViewCell {
         
         
         self.thumbnail = UIImageView(frame: CGRect(x: 0, y: 0, width: CTTableViewCell.defaultHeight, height: CTTableViewCell.defaultHeight))
-        self.thumbnail.backgroundColor = .lightGrayColor()
+        self.thumbnail.backgroundColor = UIColor(patternImage: UIImage(named: "pencil_icon.png")!)
+//        self.thumbnail.backgroundColor = .lightGrayColor()
         self.contentView.addSubview(self.thumbnail)
     
         self.dateLabel = UILabel(frame: CGRect(x: x, y: y, width: width, height: 14))
