@@ -46,10 +46,13 @@ class CTTableViewCell: UITableViewCell {
         self.messageLabel = UILabel(frame: CGRect(x: x, y: y, width: width, height: 22))
         self.messageLabel.font = UIFont(name: "Helvetica", size: 14)
         self.messageLabel.numberOfLines = 0
-//        self.messageLabel.lineBreakMode = .ByWordWrapping
         self.messageLabel.textColor = .darkGrayColor()
         self.messageLabel.addObserver(self, forKeyPath: "text", options: .Initial, context: nil)
         self.contentView.addSubview(self.messageLabel)
+        
+        let line = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 1))
+        line.backgroundColor = .lightGrayColor()
+        self.contentView.addSubview(line)
         
     }
     

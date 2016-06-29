@@ -68,6 +68,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         self.chatTable.dataSource = self
         self.chatTable.delegate = self
         self.chatTable.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        self.chatTable.separatorStyle = .None
         self.chatTable.showsVerticalScrollIndicator = false
         self.chatTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
         view.addSubview(self.chatTable)
@@ -333,9 +334,13 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     }
     
     func postMessage(){
+        let loggedIn = self.checkLoggedIn()
+        if (loggedIn == false){
+            return
+        }
+        
         let imageInfo = ["original": "", "thumb": ""]
         self.postMessageDict(self.preparePostInfo(imageInfo))
-        
     }
     
     func postMessageDict(postInfo: Dictionary<String, AnyObject>){
@@ -405,8 +410,14 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         self.bottomView.frame = frame
     }
     
+    
     //MARK: - TextField Delegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        let loggedIn = self.checkLoggedIn()
+        if (loggedIn == false) {
+            return false
+        }
         
         let imageInfo = ["original":"","thumb": ""]
         

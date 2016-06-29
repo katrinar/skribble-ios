@@ -57,6 +57,39 @@ class CTViewController: UIViewController {
         notificationCenter.postNotification(notification)
     }
     
+    func checkLoggedIn()-> Bool {
+        if (CTViewController.currentUser.id != nil){
+            return true
+        }
+        
+        let alert = UIAlertController(
+            title: "Not Logged In",
+            message: "Please log in or register to chat.",
+            preferredStyle: .Alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.startLoginRegisterSequence()
+            })
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { action in
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        return false
+    }
+    
+    func startLoginRegisterSequence(){
+        let loginRegisterVc = CTAccountViewController()
+        loginRegisterVc.showsBackButton = true
+        let navCtr = UINavigationController(rootViewController: loginRegisterVc)
+        self.presentViewController(navCtr, animated: true, completion: nil)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

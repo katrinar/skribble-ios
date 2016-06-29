@@ -11,6 +11,7 @@ import UIKit
 class CTAccountViewController: CTViewController {
     
     var loginButtons = Array<UIButton>()
+    var showsBackButton = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -44,7 +45,15 @@ class CTAccountViewController: CTViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.hidesBackButton = true
+        self.navigationItem.hidesBackButton = !self.showsBackButton
+        if (self.showsBackButton){
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+                title: "Cancel",
+                style: .Plain,
+                target: self,
+                action: #selector(CTAccountViewController.exit)
+            )
+        }
 
     }
     
@@ -92,6 +101,10 @@ class CTAccountViewController: CTViewController {
             let loginVc = CTLoginViewController()
             self.navigationController?.pushViewController(loginVc, animated: true)
         }
+    }
+    
+    func exit(){
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func userLoggedIn(notification: NSNotification){
