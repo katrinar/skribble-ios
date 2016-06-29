@@ -25,7 +25,8 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.edgesForExtendedLayout = .None
-        self.title = "Map"
+        self.title = ""
+        self.tabBarItem.title = "Map"
         self.tabBarItem.image = UIImage(named: "globe_icon.png")
         
         let notificationCenter = NSNotificationCenter.defaultCenter()

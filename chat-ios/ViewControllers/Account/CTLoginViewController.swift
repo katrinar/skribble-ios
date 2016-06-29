@@ -44,7 +44,10 @@ class CTLoginViewController: CTViewController, UITextFieldDelegate {
         super.viewDidLoad()
         if (self.navigationItem.leftBarButtonItem != nil){
             self.navigationItem.hidesBackButton = true
+            return
         }
+        
+       self.configureCustomBackButton()
 
     }
     

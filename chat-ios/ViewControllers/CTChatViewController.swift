@@ -123,6 +123,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureCustomBackButton()
         self.firebase = FIRDatabase.database().reference() // initialize FB manager
     }
     
@@ -445,7 +446,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             cell.thumbnail.image = post.thumbnailData
             return cell
         }
-        
         post.addObserver(self, forKeyPath: "thumbnailData", options: .Initial, context: nil)
         post.fetchThumbnail()
        

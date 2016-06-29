@@ -26,8 +26,6 @@ class CTPost: NSObject {
     var imageData: UIImage?
     var thumbnailData: UIImage?
     
-    
-    
     func populate(postInfo: Dictionary<String, AnyObject>){
         let keys = ["message", "place", "from"]
         for key in keys {
@@ -56,7 +54,6 @@ class CTPost: NSObject {
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "MMMM dd, yyyy" // "May 16, 2015"
             self.formattedDate = dateFormatter.stringFromDate(self.timestamp)
-
         }
     }
     
@@ -87,7 +84,6 @@ class CTPost: NSObject {
     }
     
     func fetchImage(){
-        
      
         if (self.imageUrl.characters.count == 0){
             return
@@ -111,7 +107,6 @@ class CTPost: NSObject {
             if let img = UIImage(data: data!){
                 self.imageData = img
             }
-            
         }
     }
 

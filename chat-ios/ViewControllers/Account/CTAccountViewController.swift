@@ -19,7 +19,8 @@ class CTAccountViewController: CTViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        self.title = "Account"
+        self.title = ""
+        self.tabBarItem.title = "Account"
         self.tabBarItem.image = UIImage(named: "profile_icon.png")
 
     }

@@ -27,7 +27,6 @@ class CTViewController: UIViewController {
             name: Constants.kUserLoggedInNotification,
             object: nil
         )
-        
         let logoImageView = UIImageView(image: UIImage(named: "skribble-logo_icon.png"))
         let logoView = UIView(frame: CGRect(x: 0, y: 0, width: logoImageView.frame.size.width, height: logoImageView.frame.size.height+10))
         logoView.addSubview(logoImageView)
@@ -99,6 +98,12 @@ class CTViewController: UIViewController {
     
     func exit(){
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func configureCustomBackButton(){
+        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "back_icon.png")
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+    
     }
 
     override func didReceiveMemoryWarning() {
