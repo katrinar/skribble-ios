@@ -402,6 +402,11 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             var frame = self.bottomView.frame
             frame.origin.y = keyboardFrame.origin.y-frame.size.height
             self.bottomView.frame = frame
+            
+            frame = self.chatTable.frame
+            frame.origin.y = -keyboardFrame.size.height
+            self.chatTable.frame = frame
+
         }
     }
     
@@ -409,7 +414,12 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         var frame = self.bottomView.frame
         frame.origin.y = self.view.frame.size.height-frame.size.height
         self.bottomView.frame = frame
+        
+        frame = self.chatTable.frame
+        frame.origin.y = 0
+        self.chatTable.frame = frame
     }
+    
     
     
     //MARK: - TextField Delegate
