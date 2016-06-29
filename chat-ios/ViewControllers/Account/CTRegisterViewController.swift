@@ -42,6 +42,9 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (self.navigationItem.leftBarButtonItem != nil){
+            self.navigationItem.hidesBackButton = true
+        }
 
     }
     
@@ -95,7 +98,6 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
                                                 self.exit()
                                             }
 
-                                            
                                             let accountVc = CTAccountViewController()
                                             self.navigationController?.pushViewController(accountVc, animated: true)
                                         })

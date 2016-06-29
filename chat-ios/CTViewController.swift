@@ -27,6 +27,12 @@ class CTViewController: UIViewController {
             name: Constants.kUserLoggedInNotification,
             object: nil
         )
+        
+        let logoImageView = UIImageView(image: UIImage(named: "skribble-logo_icon.png"))
+        let logoView = UIView(frame: CGRect(x: 0, y: 0, width: logoImageView.frame.size.width, height: logoImageView.frame.size.height+10))
+        logoView.addSubview(logoImageView)
+        
+        self.navigationItem.titleView = logoView
     }
     
     override func viewDidLoad() {
@@ -86,6 +92,8 @@ class CTViewController: UIViewController {
         let loginRegisterVc = CTAccountViewController()
         loginRegisterVc.showsBackButton = true
         let navCtr = UINavigationController(rootViewController: loginRegisterVc)
+        navCtr.navigationBar.barTintColor = UIColor(red: 0.5, green: 0.5, blue: 0, alpha: 1)
+
         self.presentViewController(navCtr, animated: true, completion: nil)
     }
     

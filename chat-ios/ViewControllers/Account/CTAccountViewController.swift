@@ -46,15 +46,21 @@ class CTAccountViewController: CTViewController {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = !self.showsBackButton
+        
         if (self.showsBackButton){
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-                title: "Cancel",
-                style: .Plain,
-                target: self,
-                action: #selector(CTAccountViewController.exit)
-            )
+            let btnCancel = UIButton(type: .Custom)
+            let cancelIcon = UIImage(named: "cancel_icon.png")!
+            btnCancel.setImage(cancelIcon, forState: .Normal)
+            
+            btnCancel.frame = CGRect(x: 0, y: 0, width: cancelIcon.size.width, height: 44)
+            
+            btnCancel.addTarget(
+                self,
+                action: #selector(CTAccountViewController.exit),
+                forControlEvents: .TouchUpInside)
+            
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnCancel)
         }
-
     }
     
     func loadAccountView(frame: CGRect, view: UIView){

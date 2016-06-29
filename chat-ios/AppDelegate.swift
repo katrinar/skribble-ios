@@ -22,9 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let mapVc = CTMapViewController()
         let mapNavCtr = UINavigationController(rootViewController: mapVc)
+        mapNavCtr.navigationBar.barTintColor = UIColor(red: 0.5, green: 0, blue: 0.5, alpha: 1)
         
         let accountVc = CTAccountViewController()
         let accountNavCtr = UINavigationController(rootViewController: accountVc)
+        accountNavCtr.navigationBar.barTintColor = UIColor(red: 0.5, green: 0.5, blue: 0, alpha: 1)
         
         let tabCtr = UITabBarController()
         tabCtr.viewControllers = [mapNavCtr, accountNavCtr]

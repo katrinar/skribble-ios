@@ -42,8 +42,10 @@ class CTLoginViewController: CTViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (self.navigationItem.leftBarButtonItem != nil){
+            self.navigationItem.hidesBackButton = true
+        }
 
-        // Do any additional setup after loading the view.
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
