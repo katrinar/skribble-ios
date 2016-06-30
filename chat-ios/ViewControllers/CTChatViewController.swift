@@ -29,7 +29,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     var cameraBtn: UIButton!
     var loaded = false
     
-    
     //MARK: - Lifecycle Methods
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -123,8 +122,10 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.place.visited = true
         self.configureCustomBackButton()
         self.firebase = FIRDatabase.database().reference() // initialize FB manager
+    
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -323,14 +324,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         postInfo["place"] = self.place.id
         postInfo["image"] = imageInfo
         
-//        let postInfo = [
-//            "from": CTViewController.currentUser.id!,
-//            "message": self.messageField.text!,
-//            "timestamp": "\(NSDate().timeIntervalSince1970)",
-//            "place":self.place.id,
-//            "image": imageInfo
-//        ]
-        
         return postInfo
     }
     
@@ -345,6 +338,21 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     }
     
     func postMessageDict(postInfo: Dictionary<String, AnyObject>){
+        
+        let message = postInfo["message"] as! String
+        if (message.characters.count == 0){
+            print("Empty message")
+            
+            let alert = UIAlertController(title: "No Message", message: "Please Enter a Message", preferredStyle: .Alert)
+
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+                
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        
         self.messageField.resignFirstResponder()
         if (self.selectedImage != nil){ //upload image first
             self.uploadImage()
@@ -419,8 +427,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         frame.origin.y = 0
         self.chatTable.frame = frame
     }
-    
-    
     
     //MARK: - TextField Delegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {

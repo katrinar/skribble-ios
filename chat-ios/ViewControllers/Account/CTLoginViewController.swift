@@ -108,8 +108,10 @@ class CTLoginViewController: CTViewController, UITextFieldDelegate {
                                     print("\(response)")
                                     
                                     if let result = response!["currentUser"] as? Dictionary<String, AnyObject>{
+                                        CTViewController.currentUser.populate(result)
                                         
                                         dispatch_async(dispatch_get_main_queue(), {
+                                        
                                             self.postLoggedInNotification(result)
                                             
                                             if (self.navigationItem.leftBarButtonItem == nil){
@@ -119,9 +121,6 @@ class CTLoginViewController: CTViewController, UITextFieldDelegate {
                                             else {
                                                 self.exit()
                                             }
-                                            
-                                            let accountVc = CTAccountViewController()
-                                            self.navigationController?.pushViewController(accountVc, animated: true)
                                         })
                                     }
             })

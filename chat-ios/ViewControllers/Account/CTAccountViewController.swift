@@ -66,12 +66,29 @@ class CTAccountViewController: CTViewController {
     func loadAccountView(frame: CGRect, view: UIView){
         let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
-        let y = CGFloat(Constants.origin_y)
+        var y = CGFloat(Constants.origin_y)
         
         let nameLabel = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 22))
         nameLabel.text = CTViewController.currentUser.email
         nameLabel.textColor = UIColor.whiteColor()
         view.addSubview(nameLabel)
+        y += nameLabel.frame.size.height
+        
+        let btnLogout = CTButton(frame: CGRect(x: padding, y: y, width: width, height: 44))
+        btnLogout.setTitle("Logout", forState: .Normal)
+        btnLogout.addTarget(self,
+                            action: #selector(CTAccountViewController.logout),
+                            forControlEvents: .TouchUpInside)
+        view.addSubview(btnLogout)
+    }
+    
+    func logout(){
+        APIManager.getRequest("/account/logout", params: nil, completion: { response in
+            
+            print("\(response)")
+            
+
+            })
     }
     
     func loadSignupView(frame: CGRect, view: UIView){

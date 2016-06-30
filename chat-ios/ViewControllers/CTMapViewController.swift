@@ -12,12 +12,17 @@ import CoreLocation
 
 class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
+    //MARK: - Properties
     var mapView: MKMapView!
     var locationManager: CLLocationManager!
     var places = Array<CTPlace>()
     var btnCreatePlace: UIButton!
     var currentLocation: CLLocation?
+    var darkOverlay: UIView!
+    var selectedPlace: CTPlace?
+    var passwordField: UITextField!
     
+    //MARK: - Lifecycle Methods
     required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
     }
@@ -57,9 +62,55 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
             action: #selector(CTMapViewController.createPlace),
             forControlEvents: .TouchUpInside
         )
-        
+
         self.btnCreatePlace.alpha = 0 //initially hidden
         view.addSubview(self.btnCreatePlace)
+        
+        self.darkOverlay = UIView(frame: frame)
+        self.darkOverlay.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+        
+        var y = padding
+        
+        let btnCancel = UIButton(frame: CGRect(x: 20, y: 20, width: 44, height: 44))
+//        btnCancel.backgroundColor = .redColor()
+        btnCancel.setImage(UIImage(named: "cancel_icon.png"), forState: .Normal)
+        btnCancel.addTarget(
+            self,
+            action: #selector(CTMapViewController.dismissOverlay),
+            forControlEvents: .TouchUpInside
+        )
+        y += btnCancel.frame.size.height+60
+        
+//        let passwordLabel = UILabel(frame: CGRect(x: padding, y: 100, width: frame.size.width-2*padding, height: 24))
+//        passwordLabel.backgroundColor = .redColor()
+//        self.darkOverlay.addSubview(passwordLabel)
+        
+        self.passwordField = CTTextField(frame: CGRect(x: 20, y: 100, width: frame.size.width-40, height: 24))
+        self.passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        self.darkOverlay.addSubview(passwordField)
+        y += passwordField.frame.size.height+padding
+        
+        let btnEnter = CTButton(frame: CGRect(x: padding, y: y, width: frame.size.width-2*padding, height: 44))
+        btnEnter.setTitle("Enter", forState: .Normal)
+        btnEnter.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0, alpha: 1.0)
+        btnEnter.addTarget(
+            self,
+            action: #selector(CTMapViewController.enterSelectedPlace),
+            forControlEvents: .TouchUpInside
+        )
+        self.darkOverlay.addSubview(btnEnter)
+
+            
+        self.darkOverlay.alpha = 0.0
+        self.darkOverlay.addGestureRecognizer(UITapGestureRecognizer(
+            target: self,
+            action: #selector(CTMapViewController.dismissOverlay)
+            ))
+        self.darkOverlay.addSubview(btnCancel)
+        
+        view.addSubview(self.darkOverlay)
+        
+     
 
         self.view = view
     }
@@ -84,6 +135,14 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
 
         self.showCreateButton()
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.dismissOverlay()
+        self.passwordField.text = ""
+    }
+    
+    //MARK: - Custom Functions
     
     func placeCreated(notification: NSNotification){
         if let place = notification.userInfo!["place"] as? CTPlace {
@@ -121,6 +180,50 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
         }
         self.showCreateButton()
     }
+    
+    func dismissOverlay(){
+        UIView.animateWithDuration(
+            0.35,
+            animations: {
+                self.darkOverlay.alpha = 0.0
+        })
+    }
+    
+    func showDarkOverlay(){
+        UIView.animateWithDuration(
+            0.35,
+            animations: {
+                self.darkOverlay.alpha=1.0
+        })
+    }
+    
+    func enterSelectedPlace(){
+        if (self.selectedPlace?.visited == true || self.passwordField.text == self.selectedPlace?.password){
+            let chatVc = CTChatViewController()
+            chatVc.place = self.selectedPlace
+            self.navigationController?.pushViewController(chatVc, animated: true)
+            return
+        }
+        
+        if (self.passwordField.text != self.selectedPlace?.password){
+            
+            let alert = UIAlertController(
+                title: "Wrong Password",
+                message: "Please Try Again Later",
+                preferredStyle: .Alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+                
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
+        let chatVc = CTChatViewController()
+        chatVc.place = self.selectedPlace
+        self.navigationController?.pushViewController(chatVc, animated: true)
+    }
   
     func showCreateButton(){
         self.btnCreatePlace.alpha = 1
@@ -148,10 +251,10 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
 
         //MAKE API REQUEST TO OUR BACKEND:
         
-        let params = [
-            "lat": lat,
-            "lng": lng
-        ]
+       var params = Dictionary<String, AnyObject>()
+        params["lat"] = lat
+        params["lng"] = lng
+        params["key"] = "123" //temporary key for testing
         
         APIManager.getRequest("/api/place", params: params, completion: { response in
             
@@ -223,12 +326,14 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let place = view.annotation as! CTPlace
-        print("calloutAccessoryControlTapped: \(place.name)")
+        self.selectedPlace = view.annotation as? CTPlace
+        self.showDarkOverlay()
         
-        let chatVc = CTChatViewController()
-        chatVc.place = place
-        self.navigationController?.pushViewController(chatVc, animated: true)
+//        let place = view.annotation as! CTPlace
+//        print("calloutAccessoryControlTapped: \(place.name)")
+//        let chatVc = CTChatViewController()
+//        chatVc.place = place
+//        self.navigationController?.pushViewController(chatVc, animated: true)
     }
     
     // MARK: LocationManagerDelegate

@@ -88,6 +88,7 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
                                     
                                     if let result = response!["result"] as? Dictionary<String, AnyObject>{
                                         
+                                        
                                         dispatch_async(dispatch_get_main_queue(), {
                                             
                                             self.postLoggedInNotification(result)
@@ -99,9 +100,6 @@ class CTRegisterViewController: CTViewController, UITextFieldDelegate {
                                             else {
                                                 self.exit()
                                             }
-
-                                            let accountVc = CTAccountViewController()
-                                            self.navigationController?.pushViewController(accountVc, animated: true)
                                         })
                                        
                                     }
