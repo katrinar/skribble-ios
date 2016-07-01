@@ -182,6 +182,8 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func dismissOverlay(){
+        self.passwordField.resignFirstResponder()
+        
         UIView.animateWithDuration(
             0.35,
             animations: {
@@ -198,6 +200,9 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func enterSelectedPlace(){
+        
+        self.passwordField.resignFirstResponder()
+        
         if (self.selectedPlace?.visited == true || self.passwordField.text == self.selectedPlace?.password){
             let chatVc = CTChatViewController()
             chatVc.place = self.selectedPlace
