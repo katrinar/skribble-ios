@@ -12,12 +12,13 @@ import Alamofire
 class CTPost: NSObject {
     
     var id: String!
-    var from: String!
     var message: String!
-    var place: String!
     var timestamp: NSDate!
     var formattedDate: String!
     var isFetching = false
+    var place: Dictionary<String, AnyObject>!
+    var from: Dictionary<String, AnyObject>!
+
     
     //Images
     var image: Dictionary<String, AnyObject>!
@@ -83,7 +84,7 @@ class CTPost: NSObject {
         }
     }
     
-    func fetchImage(){
+    func fetchImage(completion: ((image: UIImage) -> Void)?){
      
         if (self.imageUrl.characters.count == 0){
             return
@@ -98,6 +99,7 @@ class CTPost: NSObject {
         }
         
         self.isFetching = true
+        
         Alamofire.request(.GET, self.imageUrl, parameters: nil).response { (req, res, data, error) in
             self.isFetching = false
             if (error != nil){
@@ -106,6 +108,9 @@ class CTPost: NSObject {
             
             if let img = UIImage(data: data!){
                 self.imageData = img
+                if (completion != nil){
+                    completion!(image:img)
+                }
             }
         }
     }

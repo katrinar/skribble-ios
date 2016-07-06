@@ -318,10 +318,10 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     func preparePostInfo(imageInfo: Dictionary<String, AnyObject>) -> Dictionary<String, AnyObject>{
         
         var postInfo = Dictionary<String, AnyObject>()
-        postInfo["from"] = CTViewController.currentUser.id!
+        postInfo["from"] = ["id":CTViewController.currentUser.id!, "username":CTViewController.currentUser.username]
         postInfo["message"] = self.messageField.text!
         postInfo["timestamp"] = "\(NSDate().timeIntervalSince1970)"
-        postInfo["place"] = self.place.id
+        postInfo["place"] = ["id":self.place.id, "name":self.place.name]
         postInfo["image"] = imageInfo
         
         return postInfo
@@ -476,7 +476,11 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("didSelectRowAtIndexPath")
+        
+        let postVc = CTPostViewController()
+        postVc.post = self.posts[indexPath.row]
+        self.navigationController?.pushViewController(postVc, animated: true)
+      
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

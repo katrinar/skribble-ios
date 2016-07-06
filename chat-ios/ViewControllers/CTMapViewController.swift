@@ -361,7 +361,6 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
             return
         }
         
-        
             //user is an admin of place, do not need password
             
         let isAdmin = self.selectedPlace?.admins.contains(CTViewController.currentUser.id!)
