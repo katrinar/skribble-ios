@@ -203,6 +203,22 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
         
         self.passwordField.resignFirstResponder()
         
+        if (CTViewController.currentUser.id != nil){
+            //user is an admin of place, do not need password
+
+           let isAdmin = self.selectedPlace?.admins.contains(CTViewController.currentUser.id!)
+            
+            
+            if (isAdmin == true){
+                let chatVc = CTChatViewController()
+                chatVc.place = self.selectedPlace
+                self.navigationController?.pushViewController(chatVc, animated: true)
+                return
+            }
+        }
+        
+       
+        
         if (self.selectedPlace?.visited == true || self.passwordField.text == self.selectedPlace?.password){
             let chatVc = CTChatViewController()
             chatVc.place = self.selectedPlace
@@ -332,13 +348,35 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         self.selectedPlace = view.annotation as? CTPlace
-        self.showDarkOverlay()
         
-//        let place = view.annotation as! CTPlace
-//        print("calloutAccessoryControlTapped: \(place.name)")
-//        let chatVc = CTChatViewController()
-//        chatVc.place = place
-//        self.navigationController?.pushViewController(chatVc, animated: true)
+        // user previously entered, do not enforce password again:
+        if (self.selectedPlace?.visited == true){
+            self.enterSelectedPlace()
+            return
+        }
+        
+        // user has to enter password
+        if (CTViewController.currentUser.id == nil){
+            self.showDarkOverlay()
+            return
+        }
+        
+        
+            //user is an admin of place, do not need password
+            
+        let isAdmin = self.selectedPlace?.admins.contains(CTViewController.currentUser.id!)
+            
+            
+        if (isAdmin == false){ //user has to enter password
+            self.showDarkOverlay()
+            return
+        }
+        
+        // user is an admin of place, do not need password:
+        let chatVc = CTChatViewController()
+        chatVc.place = self.selectedPlace
+        self.navigationController?.pushViewController(chatVc, animated: true)
+
     }
     
     // MARK: LocationManagerDelegate
