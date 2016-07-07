@@ -8,9 +8,8 @@
 
 import UIKit
 import Firebase
-import Cloudinary
 
-class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate, CLUploaderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate {
     
     //Firebase Config:
     var firebase: FIRDatabaseReference! // establishes connection and maintains connection to DB
@@ -91,7 +90,7 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         self.cameraBtn.addTarget(
             self,
-            action: #selector(CTChatViewController.showCameraOptions(_:)),
+            action: #selector(CTChatViewController.photoSources),
             forControlEvents: .TouchUpInside)
         self.bottomView.addSubview(cameraBtn)
         
@@ -213,104 +212,34 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         })
     }
     
-   //MARK: - UploadImage
-    func uploadImage(){
+    //MARK: - Camera helper
+    
+    func photoSources(){
+        let actionSheet = self.showCameraOptions()
+        
         if (self.selectedImage == nil){
-        return
+            self.presentViewController(actionSheet, animated: true, completion: nil)
+            return
         }
-        // cloudinary://118396592152297:GzR9SFSUapiY2wzTIyV463rdAoU@hnhde1nnq
-        let clouder = CLCloudinary(url: "cloudinary://118396592152297:GzR9SFSUapiY2wzTIyV463rdAoU@hnhde1nnq")
-        let forUpload = UIImageJPEGRepresentation(self.selectedImage!, 0.5)
-    
-        let uploader = CLUploader(clouder, delegate: self)
-        
-        uploader.upload(forUpload, options: nil,
-                        
-                        withCompletion: { (dataDictionary: [NSObject: AnyObject]!, errorResult:String!, code:Int, context: AnyObject!) -> Void in
-                            
-                            print("Upload Response: \(dataDictionary)")
-                            
-                            // self.uploadResponse = Mapper<ImageUploadResponse>().map(dataDictionary)
-                            // if code < 400 { onCompletion(status: true, url: self.uploadResponse?.imageURL)}
-                            // else {onCompletion(status: false, url: nil)}
-                            
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.selectedImage = nil
-                                
-                                var imageUrl = ""
-                                if let secure_url = dataDictionary["secure_url"] as? String{
-                                    imageUrl = secure_url
-                                }
-                                
-                                
-                                //Generate thumbnail url:
-                                //https://res.cloudinary.com/hnhde1nnq/image/upload/t_thumb_250/v1467073098/q19hek7eo2ospnrg6qvw.jpg
-                                
-                                let thumbnailUrl = imageUrl.stringByReplacingOccurrencesOfString("/upload/", withString: "/upload/t_thumb_250/")
-                                
-                                let imageInfo = [
-                                    "original": imageUrl,
-                                    "thumb": thumbnailUrl
-                                ]
-                                
-                                self.postMessageDict(self.preparePostInfo(imageInfo))
-                                })
-            },
-                        
-                        andProgress: { (bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, context:AnyObject!) -> Void in
-                            
-                            print("Upload progress: \((totalBytesWritten * 100)/totalBytesExpectedToWrite) %");
-            }
-            
-        )
-}
-    
-    func showCameraOptions(btn: UIButton){
-        print("Show Camerea Options: ")
-        
-        let actionSheet = UIAlertController(title: "Select Photo Source", message: nil, preferredStyle: .ActionSheet)
-        
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { action in
-            print("Select Camera: \(action.title!)")
-            dispatch_async(dispatch_get_main_queue(), {
-                self.launchPhotoPicker(.Camera)
-            })
-        }))
-        
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .Default, handler: { action in
-            print("Select Photo Library: \(action.title!)")
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.launchPhotoPicker(.PhotoLibrary)
-            })
-        }))
         
         actionSheet.addAction(UIAlertAction(title: "Remove Image", style: .Default, handler: { action in
-           
+            
             dispatch_async(dispatch_get_main_queue(), {
                 self.selectedImage = nil
-                self.cameraBtn.setImage(nil, forState: .Normal)
-                
-                UIView.transitionWithView(
-                    self.cameraBtn,
-                    duration: 0.3,
-                    options: UIViewAnimationOptions.TransitionFlipFromLeft,
-                    animations: {
-                        self.cameraBtn.setImage(UIImage(named: "camera_icon.png"), forState: .Normal)
+            
+            UIView.transitionWithView(
+                self.cameraBtn,
+                duration: 0.3,
+                options: UIViewAnimationOptions.TransitionFlipFromLeft,
+                animations: {
+                    self.cameraBtn.setImage(UIImage(named: "camera_icon.png"), forState: .Normal)
                     self.cameraBtn.alpha = 1.0
-                    }, completion: nil)
-            })
-        }))
+                    },
+                    completion: nil)
+                })
+            }))
         
         self.presentViewController(actionSheet, animated: true, completion: nil)
-    }
-    
-    func launchPhotoPicker(sourceType: UIImagePickerControllerSourceType){
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = sourceType
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     //MARK: - Post Message
@@ -332,8 +261,10 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         if (loggedIn == false){
             return
         }
+        let originalDefault = self.place.image["original"] as? String
+        let thumbnailDefault = self.place.image["thumb"] as? String
         
-        let imageInfo = ["original": "", "thumb": ""]
+        let imageInfo = ["original": originalDefault!, "thumb": thumbnailDefault!]
         self.postMessageDict(self.preparePostInfo(imageInfo))
     }
     
@@ -355,7 +286,10 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         
         self.messageField.resignFirstResponder()
         if (self.selectedImage != nil){ //upload image first
-            self.uploadImage()
+            self.uploadImage(self.selectedImage!, completion: { imageInfo in
+                self.selectedImage = nil
+                self.postMessageDict(self.preparePostInfo(imageInfo))
+            })
             return
         }
         
@@ -394,12 +328,6 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
                 completion: nil)
         })
     }
-   
-    func imagePickerControllerDidCancel(picker: UIImagePickerController){
-        picker.dismissViewControllerAnimated(true, completion: nil)
-           
-      
-    }
     
     //MARK: - KeyboardNotification
     func shiftKeyboardUp(notification: NSNotification){
@@ -436,7 +364,9 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             return false
         }
         
-        let imageInfo = ["original":"","thumb": ""]
+        let originalDefault = self.place.image["original"] as? String
+        let thumbnailDefault = self.place.image["thumb"] as? String
+        let imageInfo = ["original":originalDefault!,"thumb": thumbnailDefault!]
         
         self.postMessageDict(self.preparePostInfo(imageInfo))
         return true

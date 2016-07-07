@@ -23,15 +23,13 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         self.edgesForExtendedLayout = .None
     }
 
-    
     override func loadView() {
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
-        view.backgroundColor = .clearColor()
+        view.backgroundColor = .whiteColor()
         
         self.postImage = UIImageView(frame: CGRectMake(0, 0, frame.size.width, frame.size.width))
         self.postImage.alpha = 0
-        
         
         let layer = CAGradientLayer()
         layer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
@@ -40,44 +38,76 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         layer.colors = [blk.CGColor, UIColor.clearColor().CGColor]
         self.postImage.layer.addSublayer(layer)
         
-        let padding = CGFloat(Constants.padding)
+        view.addSubview(self.postImage)
         
-        let lblPlace = UILabel(frame: CGRect(x: padding, y: padding, width: frame.size.width-2*padding, height: 22))
-        lblPlace.textColor = .whiteColor()
-        lblPlace.font = UIFont.boldSystemFontOfSize(16)
+        let bgText = UIView(frame: CGRect(x: 0, y: 250, width: frame.size.width, height: frame.size.height))
+        bgText.backgroundColor = .whiteColor()
+        
+        let padding = CGFloat(Constants.padding)
+        let width = frame.size.width-2*padding
+        let font = UIFont(name: "Heiti SC", size: 14)
+        
+        let lblPlace = UILabel(frame: CGRect(x: padding, y: padding, width: width, height: 24))
+        lblPlace.textColor = .darkGrayColor()
+        lblPlace.font = UIFont.boldSystemFontOfSize(24)
         lblPlace.text = self.post.place["name"] as? String
-        self.postImage.addSubview(lblPlace)
+        bgText.addSubview(lblPlace)
         
         var y = padding+lblPlace.frame.size.height
         
-        let lblUsername = UILabel(frame: CGRect(x: padding, y: y, width: frame.size.width-2*padding, height: 18))
-        lblUsername.textColor = .whiteColor()
-        lblUsername.font = UIFont(name: "Heiti SC", size: 14)
+        let lblUsername = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 18))
+        lblUsername.font = font
+        lblUsername.textColor = .darkGrayColor()
         lblUsername.text = self.post.from["username"] as? String
-        self.postImage.addSubview(lblUsername)
+        bgText.addSubview(lblUsername)
         
         y += lblUsername.frame.size.height
         
-        let lblDate = UILabel(frame: CGRect(x: padding, y: y, width: frame.size.width-2*padding, height: 18))
-        lblDate.textColor = .whiteColor()
-        lblDate.font = UIFont(name: "Heiti SC", size: 14)
+        let lblDate = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 18))
+        lblDate.textColor = .darkGrayColor()
+        lblDate.font = font
         lblDate.text = self.post.formattedDate
-        self.postImage.addSubview(lblDate)
+        bgText.addSubview(lblDate)
         
+        y += lblDate.frame.size.height+padding
         
-        view.addSubview(self.postImage)
+        let line = UIView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: 0.5))
+        line.backgroundColor = .lightGrayColor()
+        bgText.addSubview(line)
+        
+        y += padding
+        
+        let str = NSString(string: self.post.message)
+        let bounds = str.boundingRectWithSize(
+            CGSizeMake(width, 1000),
+            options: .UsesLineFragmentOrigin,
+            attributes: [NSFontAttributeName: font!],
+            context: nil
+        )
+        
+        let lblText = UILabel(frame: CGRect(x: padding, y: y, width: width, height: bounds.size.height))
+        lblText.font = font
+        lblText.numberOfLines = 0
+        lblText.lineBreakMode = .ByWordWrapping
+        lblText.text = self.post.message
+        lblText.textColor = .darkGrayColor()
+        bgText.addSubview(lblText)
 
         self.scrollview = UIScrollView(frame: frame)
         self.scrollview.delegate = self
         self.scrollview.showsVerticalScrollIndicator = false
         self.scrollview.backgroundColor = .clearColor()
-        let bgText = UIView(frame: CGRect(x: 0, y: 250, width: frame.size.width, height: frame.size.height))
-        bgText.backgroundColor = .whiteColor()
+       
         self.scrollview.addSubview(bgText)
-        self.scrollview.contentSize = CGSizeMake(0, 1000)
+        var contentHeight = bgText.frame.origin.y+lblText.frame.origin.y+bounds.size.height+padding+64
         
-        view.addSubview(self.scrollview)
-        
+        // enforce minimun height for scroll-ability
+        if (contentHeight < frame.size.height){
+            contentHeight = frame.size.height+100
+        }
+        self.scrollview.contentSize = CGSizeMake(0, contentHeight)
+
+        view.addSubview(self.scrollview)        
   
         self.view = view
 
@@ -95,6 +125,7 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
             self.postImage.alpha = 1
             self.postImage.image = self.post.imageData
             self.postImage.frame = self.resizeFrame(self.postImage.frame, image: self.post.imageData!)
+
             return
         }
         
@@ -126,11 +157,17 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
     //MARK: -- ScrollViewDelegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         print("scrollViewDidScroll: \(scrollview.contentOffset.y)")
+    
         
-        
-        if (scrollview.contentOffset.y>0){
+        if (scrollview.contentOffset.y > 0){
             self.postImage.transform = CGAffineTransformIdentity
-
+            
+            //span 0 to 250
+            var frame = self.postImage.frame
+            let offset = -0.4*scrollView.contentOffset.y
+            frame.origin.y = offset
+            self.postImage.frame = frame
+            
             return
         }
         
