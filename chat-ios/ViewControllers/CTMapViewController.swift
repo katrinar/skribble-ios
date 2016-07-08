@@ -275,7 +275,7 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
        var params = Dictionary<String, AnyObject>()
         params["lat"] = lat
         params["lng"] = lng
-        params["key"] = "123" //temporary key for testing
+        params["key"] = Constants.APIKey //temporary key for testing
         
         APIManager.getRequest("/api/place", params: params, completion: { response in
             

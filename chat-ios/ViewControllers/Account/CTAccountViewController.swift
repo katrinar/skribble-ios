@@ -12,7 +12,7 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
     
     var loginButtons = Array<UIButton>()
     var places = Array<CTPlace>()
-    var adminTable: UITableView!
+    var placesTable: UITableView!
     var showsBackButton = false
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,10 +48,40 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let path = "/api/place"
+        
+        var params = Dictionary<String, AnyObject>()
+        
+        params["admins"] = CTViewController.currentUser.id
+        params["key"] = Constants.APIKey //temporary key for testing
+        
+        
+        APIManager.getRequest(
+            path,
+            params: params,
+            completion: { response in
+//                print("ACCOUNT RESULTS: \(response)")
+                
+                if let results = response["results"] as? Array<Dictionary<String, AnyObject>>{
+                    print("results")
+                    
+                    for placeInfo in results {
+                        let place = CTPlace()
+                        place.populate(placeInfo)
+                        self.places.append(place)
+                    }
+                    
+                    self.placesTable.reloadData()
+                }
+            })
+            
         
         self.navigationItem.hidesBackButton = !self.showsBackButton
         
-        if (self.showsBackButton){
+        if (self.showsBackButton == false){
+            return
+        }
+        
             let btnCancel = UIButton(type: .Custom)
             let cancelIcon = UIImage(named: "cancel_icon.png")!
             btnCancel.setImage(cancelIcon, forState: .Normal)
@@ -64,26 +94,14 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
                 forControlEvents: .TouchUpInside)
             
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnCancel)
-        }
+        
     }
     
     func loadAccountView(frame: CGRect, view: UIView){
         let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
         let font = UIFont(name: "Heiti SC", size: 14)
-        
-    
-        
-        print("PLACES: \(places)")
-
-//        var y = CGFloat(Constants.origin_y)
-        
-//        let nameLabel = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 22))
-//        nameLabel.text = CTViewController.currentUser.email
-//        nameLabel.textColor = UIColor.whiteColor()
-//        view.addSubview(nameLabel)
-//        y += nameLabel.frame.size.height
-        
+            
         let lblUsername = UILabel(frame: CGRect(x: padding, y: padding, width: width, height: 24))
         lblUsername.textColor = .darkGrayColor()
         lblUsername.font = UIFont.boldSystemFontOfSize(24)
@@ -104,48 +122,49 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
         line.backgroundColor = .darkGrayColor()
         view.addSubview(line)
         
-        y += padding+line.frame.size.height
+        y += line.frame.size.height
 
         
-        let btnLogout = CTButton(frame: CGRect(x: padding, y: y, width: width, height: 44))
-        btnLogout.setTitle("Logout", forState: .Normal)
-        btnLogout.addTarget(self,
-                            action: #selector(CTAccountViewController.logout),
-                            forControlEvents: .TouchUpInside)
-        view.addSubview(btnLogout)
+//        let btnLogout = CTButton(frame: CGRect(x: padding, y: y, width: width, height: 44))
+//        btnLogout.setTitle("Logout", forState: .Normal)
+//        btnLogout.addTarget(self,
+//                            action: #selector(CTAccountViewController.logout),
+//                            forControlEvents: .TouchUpInside)
+//        view.addSubview(btnLogout)
+//        
+//        y += padding+btnLogout.frame.size.height
         
-        y += padding+btnLogout.frame.size.height
-        
-        self.adminTable = UITableView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: frame.size.height-y))
-        self.adminTable.dataSource = self
-        self.adminTable.delegate = self
-        self.adminTable.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
-        self.adminTable.separatorStyle = .None
-        self.adminTable.showsVerticalScrollIndicator = false
-        self.adminTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
-        view.addSubview(self.adminTable)
+        self.placesTable = UITableView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: frame.size.height-y))
+        self.placesTable.autoresizingMask = .FlexibleHeight
+        self.placesTable.dataSource = self
+        self.placesTable.delegate = self
+        self.placesTable.separatorStyle = .None
+        self.placesTable.showsVerticalScrollIndicator = false
+        self.placesTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+        view.addSubview(self.placesTable)
 
     }
     
     //MARK: - TableViewDelegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("PLACES COUNT: \(self.places.count)")
-
-        return 20
+        return self.places.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        let place = self.places[indexPath.row]
-//        print("PLACE: \(place)")
+        let place = self.places[indexPath.row]
 
         let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath) as! CTTableViewCell
-        cell.messageLabel.text = "\(indexPath.row)"
+        cell.messageLabel.text = place.title
         return cell
         
             }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return CTTableViewCell.defaultHeight
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Your Places"
     }
 
     

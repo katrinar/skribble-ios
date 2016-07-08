@@ -11,6 +11,7 @@ import Foundation
 struct Constants {
 //    static let baseUrl = "http://localhost:3000"
     static let baseUrl = "https://velocity-chat-app.herokuapp.com"
+    static let APIKey = "123" //temporary for testing
 
     // Notifications:
     static let kUserLoggedInNotification = "UserLoggedInNotification"
