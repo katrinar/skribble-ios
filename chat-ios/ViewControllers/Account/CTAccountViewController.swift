@@ -8,9 +8,11 @@
 
 import UIKit
 
-class CTAccountViewController: CTViewController {
+class CTAccountViewController: CTViewController, UITableViewDelegate, UITableViewDataSource {
     
     var loginButtons = Array<UIButton>()
+    var places = Array<CTPlace>()
+    var adminTable: UITableView!
     var showsBackButton = false
     
     required init?(coder aDecoder: NSCoder) {
@@ -22,12 +24,13 @@ class CTAccountViewController: CTViewController {
         self.title = ""
         self.tabBarItem.title = "Account"
         self.tabBarItem.image = UIImage(named: "profile_icon.png")
+        self.edgesForExtendedLayout = .None
     }
     
     override func loadView() {
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
-        view.backgroundColor = .blueColor()
+        view.backgroundColor = .whiteColor()
         
         
         if (CTViewController.currentUser.id == nil){ // not logged in
@@ -35,6 +38,7 @@ class CTAccountViewController: CTViewController {
 
         }
         else { // logged in
+            
             self.loadAccountView(frame, view: view)
         }
         
@@ -66,13 +70,42 @@ class CTAccountViewController: CTViewController {
     func loadAccountView(frame: CGRect, view: UIView){
         let padding = CGFloat(Constants.padding)
         let width = frame.size.width-2*padding
-        var y = CGFloat(Constants.origin_y)
+        let font = UIFont(name: "Heiti SC", size: 14)
         
-        let nameLabel = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 22))
-        nameLabel.text = CTViewController.currentUser.email
-        nameLabel.textColor = UIColor.whiteColor()
-        view.addSubview(nameLabel)
-        y += nameLabel.frame.size.height
+    
+        
+        print("PLACES: \(places)")
+
+//        var y = CGFloat(Constants.origin_y)
+        
+//        let nameLabel = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 22))
+//        nameLabel.text = CTViewController.currentUser.email
+//        nameLabel.textColor = UIColor.whiteColor()
+//        view.addSubview(nameLabel)
+//        y += nameLabel.frame.size.height
+        
+        let lblUsername = UILabel(frame: CGRect(x: padding, y: padding, width: width, height: 24))
+        lblUsername.textColor = .darkGrayColor()
+        lblUsername.font = UIFont.boldSystemFontOfSize(24)
+        lblUsername.text = CTViewController.currentUser.username
+        view.addSubview(lblUsername)
+        
+        var y = padding+lblUsername.frame.size.height
+        
+        let lblEmail = UILabel(frame: CGRect(x: padding, y: y, width: width, height: 18))
+        lblEmail.font = font
+        lblEmail.textColor = .darkGrayColor()
+        lblEmail.text = CTViewController.currentUser.email
+        view.addSubview(lblEmail)
+        
+        y += padding+lblEmail.frame.size.height
+        
+        let line = UIView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: 0.5))
+        line.backgroundColor = .darkGrayColor()
+        view.addSubview(line)
+        
+        y += padding+line.frame.size.height
+
         
         let btnLogout = CTButton(frame: CGRect(x: padding, y: y, width: width, height: 44))
         btnLogout.setTitle("Logout", forState: .Normal)
@@ -80,7 +113,43 @@ class CTAccountViewController: CTViewController {
                             action: #selector(CTAccountViewController.logout),
                             forControlEvents: .TouchUpInside)
         view.addSubview(btnLogout)
+        
+        y += padding+btnLogout.frame.size.height
+        
+        self.adminTable = UITableView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: frame.size.height-y))
+        self.adminTable.dataSource = self
+        self.adminTable.delegate = self
+        self.adminTable.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        self.adminTable.separatorStyle = .None
+        self.adminTable.showsVerticalScrollIndicator = false
+        self.adminTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+        view.addSubview(self.adminTable)
+
     }
+    
+    //MARK: - TableViewDelegate
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("PLACES COUNT: \(self.places.count)")
+
+        return 20
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        let place = self.places[indexPath.row]
+//        print("PLACE: \(place)")
+
+        let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath) as! CTTableViewCell
+        cell.messageLabel.text = "\(indexPath.row)"
+        return cell
+        
+            }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CTTableViewCell.defaultHeight
+    }
+
+    
+    //MARK: - Logout
     
     func logout(){
         APIManager.getRequest("/account/logout", params: nil, completion: { response in
@@ -91,6 +160,8 @@ class CTAccountViewController: CTViewController {
             })
     }
     
+    //MARK: - Load Sign Up View
+
     func loadSignupView(frame: CGRect, view: UIView){
         
         let padding = CGFloat(Constants.padding)
