@@ -140,7 +140,7 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
         self.placesTable.delegate = self
         self.placesTable.separatorStyle = .None
         self.placesTable.showsVerticalScrollIndicator = false
-        self.placesTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+        self.placesTable.registerClass(CTPlaceTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
         view.addSubview(self.placesTable)
 
     }
@@ -153,14 +153,14 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let place = self.places[indexPath.row]
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath) as! CTTableViewCell
-        cell.messageLabel.text = place.title
+        let cell = tableView.dequeueReusableCellWithIdentifier(CTTableViewCell.cellId, forIndexPath: indexPath) as! CTPlaceTableViewCell
+        cell.lblTitle.text = place.title
         return cell
         
             }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return CTTableViewCell.defaultHeight
+        return CTPlaceTableViewCell.defaultHeight
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
