@@ -26,10 +26,6 @@ class CTCreatePlaceViewController: CTViewController, UITextFieldDelegate, UIPick
         let view = UIView(frame: frame)
         view.backgroundColor = UIColor.lightGrayColor()
         
-//        self.backgroundView = UIImageView(frame: frame)
-//        self.backgroundView.image = UIImage(named: "createPlace_background.png")
-//        view.addSubview(backgroundView)
-        
         let btnCancel = UIButton(type: .Custom)
         btnCancel.frame = CGRect(x: 20, y: 20, width: 100, height: 32)
         btnCancel.setTitle("Cancel", forState: .Normal)

@@ -68,8 +68,20 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         self.chatTable.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         self.chatTable.separatorStyle = .None
         self.chatTable.showsVerticalScrollIndicator = false
+        self.chatTable.tableFooterView = UITableView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 64))
         self.chatTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
         view.addSubview(self.chatTable)
+        
+        let btn = CTButton(frame: CGRect(x: 20, y: 10, width: frame.size.width-40, height: 44))
+        btn.layer.borderColor = UIColor.blackColor().CGColor
+        btn.alpha = 0.5
+        btn.setTitle("Invite your Friends", forState: .Normal)
+//        btn.addTarget(
+//            self,
+//            action: "",
+//            forControlEvents: .TouchUpInside
+//        )
+        self.chatTable.tableFooterView?.addSubview(btn)
         
         var height = self.chatTable.contentInset.bottom
         let width = frame.size.width

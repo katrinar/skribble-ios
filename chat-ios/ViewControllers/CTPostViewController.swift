@@ -83,7 +83,6 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         dropShadow.image = UIImage(named: "dropShadow.png")
         bgText.addSubview(dropShadow)
         
-        
         y += padding
         
         bgText.addSubview(headerView)
@@ -117,8 +116,6 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
             contentHeight = frame.size.height+100
         }
         self.scrollview.contentSize = CGSizeMake(0, contentHeight)
-        
-       
 
         view.addSubview(self.scrollview)        
   

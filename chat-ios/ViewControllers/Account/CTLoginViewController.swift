@@ -23,25 +23,17 @@ class CTLoginViewController: CTViewController, UITextFieldDelegate {
         let height = CGFloat(32)
         var y = CGFloat(Constants.origin_y)
         
-   
-     
-        
         let fieldNames = ["Email", "Password"]
-        let imgs = [UIImage(named:"email_icon.png")!, UIImage(named: "key_icon.png")!]
         
         for i in 0..<2 {
             
-            let field = CTTextField(frame: CGRect(x: padding+20, y: y, width: width, height: height))
+            let field = CTTextField(frame: CGRect(x: padding, y: y, width: width, height: height))
             field.delegate = self
             field.placeholder = fieldNames[i]
 
             let isPassword = (fieldNames[i] == "Password")
             field.secureTextEntry = (isPassword)
             field.returnKeyType = (isPassword) ? .Join : .Next
-            
-            let icon = UIImageView(frame: CGRect(x: padding-4, y: y+4, width: 20, height: 20))
-            icon.image = imgs[i]
-            view.addSubview(icon)
             
             view.addSubview(field)
             self.textFields.append(field)
