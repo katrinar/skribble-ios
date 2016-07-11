@@ -38,14 +38,14 @@ class CTTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.thumbnail)
     
         self.dateLabel = UILabel(frame: CGRect(x: x, y: y, width: width, height: 14))
-        self.dateLabel.font = UIFont(name: "Helvetica", size: 12)
+        self.dateLabel.font = UIFont(name: Constants.baseFont, size: 12)
         self.dateLabel.textAlignment = .Right
         self.dateLabel.textColor = .lightGrayColor()
         self.contentView.addSubview(self.dateLabel)
         y += self.dateLabel.frame.size.height+2
         
         self.messageLabel = UILabel(frame: CGRect(x: x, y: y, width: width, height: 22))
-        self.messageLabel.font = UIFont(name: "Helvetica", size: 14)
+        self.messageLabel.font = UIFont(name: Constants.baseFont, size: 14)
         self.messageLabel.numberOfLines = 0
         self.messageLabel.textColor = .darkGrayColor()
         self.messageLabel.addObserver(self, forKeyPath: "text", options: .Initial, context: nil)

@@ -32,7 +32,7 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         self.postImage.alpha = 0
         
         let layer = CAGradientLayer()
-        layer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+        layer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.width)
         
         let blk = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         layer.colors = [blk.CGColor, UIColor.clearColor().CGColor]
@@ -47,11 +47,15 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         let width = frame.size.width-2*padding
         let font = UIFont(name: "Heiti SC", size: 14)
         
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 102.5))
+        headerView.backgroundColor = UIColor(red: 0.88, green: 0.79, blue: 0.95, alpha: 1.0)
+
+        
         let lblPlace = UILabel(frame: CGRect(x: padding, y: padding, width: width, height: 24))
         lblPlace.textColor = .darkGrayColor()
         lblPlace.font = UIFont.boldSystemFontOfSize(24)
         lblPlace.text = self.post.place["name"] as? String
-        bgText.addSubview(lblPlace)
+        headerView.addSubview(lblPlace)
         
         var y = padding+lblPlace.frame.size.height
         
@@ -59,7 +63,7 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         lblUsername.font = font
         lblUsername.textColor = .darkGrayColor()
         lblUsername.text = self.post.from["username"] as? String
-        bgText.addSubview(lblUsername)
+        headerView.addSubview(lblUsername)
         
         y += lblUsername.frame.size.height
         
@@ -67,15 +71,22 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
         lblDate.textColor = .darkGrayColor()
         lblDate.font = font
         lblDate.text = self.post.formattedDate
-        bgText.addSubview(lblDate)
+        headerView.addSubview(lblDate)
         
         y += lblDate.frame.size.height+padding
         
-        let line = UIView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: 0.5))
+        let line = UIView(frame: CGRect(x: 0, y: headerView.frame.size.height-0.5, width: frame.size.width, height: 0.5))
         line.backgroundColor = .lightGrayColor()
-        bgText.addSubview(line)
+        headerView.addSubview(line)
+        
+        let dropShadow = UIImageView(frame: CGRect(x: 0, y: y, width: frame.size.width, height: 12))
+        dropShadow.image = UIImage(named: "dropShadow.png")
+        bgText.addSubview(dropShadow)
+        
         
         y += padding
+        
+        bgText.addSubview(headerView)
         
         let str = NSString(string: self.post.message)
         let bounds = str.boundingRectWithSize(
@@ -106,6 +117,8 @@ class CTPostViewController: CTViewController, UIScrollViewDelegate {
             contentHeight = frame.size.height+100
         }
         self.scrollview.contentSize = CGSizeMake(0, contentHeight)
+        
+       
 
         view.addSubview(self.scrollview)        
   

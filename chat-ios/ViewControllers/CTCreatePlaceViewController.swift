@@ -12,6 +12,7 @@ class CTCreatePlaceViewController: CTViewController, UITextFieldDelegate, UIPick
     
     var selectedImage: UIImage?
     var placeImageView: UIImageView!
+    var backgroundView: UIImageView!
     
     var placeInfo = Dictionary<String, AnyObject>()
 
@@ -24,6 +25,10 @@ class CTCreatePlaceViewController: CTViewController, UITextFieldDelegate, UIPick
         let frame = UIScreen.mainScreen().bounds
         let view = UIView(frame: frame)
         view.backgroundColor = UIColor.lightGrayColor()
+        
+//        self.backgroundView = UIImageView(frame: frame)
+//        self.backgroundView.image = UIImage(named: "createPlace_background.png")
+//        view.addSubview(backgroundView)
         
         let btnCancel = UIButton(type: .Custom)
         btnCancel.frame = CGRect(x: 20, y: 20, width: 100, height: 32)
@@ -126,6 +131,7 @@ class CTCreatePlaceViewController: CTViewController, UITextFieldDelegate, UIPick
                     self.placeImageView.alpha = 1.0
                 },
                 completion: { finished in
+                    self.createPlace(self.placeInfo)
                     
             })
         })
@@ -259,13 +265,11 @@ class CTCreatePlaceViewController: CTViewController, UITextFieldDelegate, UIPick
             
             return
         }
-        //upload iage
+        //upload image
         self.uploadImage(self.selectedImage!, completion: { imageInfo in
             self.selectedImage = nil // nil it out to prevent infinite loop
             self.placeInfo["image"] = imageInfo
             self.createPlace(self.placeInfo)
-
-        
         })
     }
     

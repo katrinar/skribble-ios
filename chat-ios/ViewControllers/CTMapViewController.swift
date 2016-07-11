@@ -192,6 +192,7 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func showDarkOverlay(){
+        self.passwordField.becomeFirstResponder()
         UIView.animateWithDuration(
             0.35,
             animations: {
@@ -200,8 +201,6 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
     }
     
     func enterSelectedPlace(){
-        
-        self.passwordField.resignFirstResponder()
         
         if (CTViewController.currentUser.id != nil){
             //user is an admin of place, do not need password
@@ -217,9 +216,8 @@ class CTMapViewController: CTViewController, CLLocationManagerDelegate, MKMapVie
             }
         }
         
-       
-        
         if (self.selectedPlace?.visited == true || self.passwordField.text == self.selectedPlace?.password){
+            self.passwordField.resignFirstResponder()
             let chatVc = CTChatViewController()
             chatVc.place = self.selectedPlace
             self.navigationController?.pushViewController(chatVc, animated: true)

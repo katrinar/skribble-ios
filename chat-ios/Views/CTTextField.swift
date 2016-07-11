@@ -23,8 +23,8 @@ class CTTextField: UITextField {
         let height = frame.size.height
         let width = frame.size.width
         
-        let line = UIView(frame: CGRect(x: 0, y: height-1, width: width, height: 1))
-        line.backgroundColor = .whiteColor()
+        let line = UIView(frame: CGRect(x: 0, y: height-1, width: width-20, height: 1))
+        line.backgroundColor = .darkGrayColor()
         self.addSubview(line)
     }
     

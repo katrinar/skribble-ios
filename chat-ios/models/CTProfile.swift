@@ -14,7 +14,7 @@ class CTProfile: NSObject {
     var id: String?
     var username: String!
     var email: String!
-    var image: String!
+    var image: Dictionary<String, AnyObject>!
    
     func populate(profileInfo: Dictionary<String, AnyObject>){
         
