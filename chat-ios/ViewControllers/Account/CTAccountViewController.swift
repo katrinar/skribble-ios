@@ -268,22 +268,8 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
             self.loginButtons.append(btn)
             view.addSubview(btn)
             y += height+padding
-        
-//            UIView.animateWithDuration(1.25,
-//                                       delay: 0,
-//                                       usingSpringWithDamping: 0.75,
-//                                       initialSpringVelocity: 0,
-//                                       options: UIViewAnimationOptions.CurveEaseOut,
-//                                       animations: {
-//                                     
-//                                        var frame = self.loginButtons[0].frame
-//                                        frame.origin.x = 60
-//                                        self.loginButtons[].frame = frame
-//                                        
-//            }, completion: nil)
             
         }
-        
     }
     
     func buttonTapped(btn: UIButton){
