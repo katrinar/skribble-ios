@@ -65,6 +65,7 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
         
         if (self.showsBackButton == false){
             self.loadAccountPlaces()
+    
             return
         }
         
@@ -212,6 +213,7 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
         if (CTViewController.currentUser.id == nil){
             return
         }
+        
         let path = "/api/place"
         
         var params = Dictionary<String, AnyObject>()
@@ -226,7 +228,7 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
             completion: { response in
                 
                 if let results = response["results"] as? Array<Dictionary<String, AnyObject>>{
-                    print("results")
+                    print("Account VC Results: \(results)")
                     
                     for placeInfo in results {
                         let place = CTPlace()
@@ -236,17 +238,16 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
                     
                     dispatch_async(dispatch_get_main_queue(), {
                         self.placesTable.reloadData()
-                        
-                        UIView.animateWithDuration(1.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity:0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { var frame = self.placesTable.frame
-                            frame.origin.y = CGFloat(self.placesTable.tag)
-                            self.placesTable.frame = frame
-                            }, completion: nil
-                        )
+                       
+                            UIView.animateWithDuration(1.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity:0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { var frame = self.placesTable.frame
+                                frame.origin.y = CGFloat(self.placesTable.tag)
+                                self.placesTable.frame = frame
+                                }, completion: nil
+                            )
                         
                     })
                 }
         })
-        
 
     }
     

@@ -23,6 +23,7 @@
 		544F516F1D24698F00D2201F /* back_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 544F516E1D24698F00D2201F /* back_icon@2x.png */; };
 		544F51711D2474D300D2201F /* pencil_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 544F51701D2474D300D2201F /* pencil_icon@2x.png */; };
 		54618B651D22F71A00B3EBCD /* camera_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54618B641D22F71A00B3EBCD /* camera_icon@2x.png */; };
+		54703D3F1D35BFD200232415 /* CTInviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54703D3E1D35BFD200232415 /* CTInviteViewController.swift */; };
 		54A192DD1D107E8E002A6B62 /* CTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A192DC1D107E8E002A6B62 /* CTButton.swift */; };
 		54A192DF1D1083EC002A6B62 /* CTCreatePlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */; };
 		54D6D6AA1D2D77A100AD8786 /* CTPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D6D6A91D2D77A100AD8786 /* CTPostViewController.swift */; };
@@ -61,6 +62,7 @@
 		544F516E1D24698F00D2201F /* back_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_icon@2x.png"; sourceTree = "<group>"; };
 		544F51701D2474D300D2201F /* pencil_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pencil_icon@2x.png"; sourceTree = "<group>"; };
 		54618B641D22F71A00B3EBCD /* camera_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon@2x.png"; sourceTree = "<group>"; };
+		54703D3E1D35BFD200232415 /* CTInviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTInviteViewController.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/CTInviteViewController.swift"; sourceTree = "<group>"; };
 		54A192DC1D107E8E002A6B62 /* CTButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTButton.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/Views/CTButton.swift"; sourceTree = "<group>"; };
 		54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTCreatePlaceViewController.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/CTCreatePlaceViewController.swift"; sourceTree = "<group>"; };
 		54D6D6A91D2D77A100AD8786 /* CTPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CTPostViewController.swift; path = "../../../../../Katrina/Desktop/chat-ios/chat-ios/ViewControllers/CTPostViewController.swift"; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			children = (
 				54E391541D0B3A0200020376 /* Account */,
 				54051C921D07478400FE7E76 /* CTMapViewController.swift */,
+				54703D3E1D35BFD200232415 /* CTInviteViewController.swift */,
 				54A192DE1D1083EC002A6B62 /* CTCreatePlaceViewController.swift */,
 				54EE81291D1335090058EA82 /* CTChatViewController.swift */,
 				54D6D6A91D2D77A100AD8786 /* CTPostViewController.swift */,
@@ -411,6 +414,7 @@
 				54A192DD1D107E8E002A6B62 /* CTButton.swift in Sources */,
 				54D6D6AC1D30253700AD8786 /* CTPlaceTableViewCell.swift in Sources */,
 				54E3915A1D0B3ADF00020376 /* CTAccountViewController.swift in Sources */,
+				54703D3F1D35BFD200232415 /* CTInviteViewController.swift in Sources */,
 				54051C991D07493800FE7E76 /* APIManager.swift in Sources */,
 				54051C941D07478400FE7E76 /* CTMapViewController.swift in Sources */,
 				54051CA51D09EC5400FE7E76 /* Config.swift in Sources */,

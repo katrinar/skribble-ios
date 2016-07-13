@@ -19,7 +19,6 @@ class CTPost: NSObject {
     var place: Dictionary<String, AnyObject>!
     var from: Dictionary<String, AnyObject>!
 
-    
     //Images
     var image: Dictionary<String, AnyObject>!
     var imageUrl: String!

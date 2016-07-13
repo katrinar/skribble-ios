@@ -72,15 +72,11 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
         self.chatTable.registerClass(CTTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
         view.addSubview(self.chatTable)
         
-        let btn = CTButton(frame: CGRect(x: 20, y: 10, width: frame.size.width-40, height: 44))
+        let btn = CTButton(frame: CGRect(x: 10, y: 10, width: frame.size.width-20, height: 44))
         btn.layer.borderColor = UIColor.blackColor().CGColor
         btn.alpha = 0.5
         btn.setTitle("Invite your Friends", forState: .Normal)
-//        btn.addTarget(
-//            self,
-//            action: "",
-//            forControlEvents: .TouchUpInside
-//        )
+        btn.addTarget(self, action: #selector(CTChatViewController.inviteUser), forControlEvents: .TouchUpInside)
         self.chatTable.tableFooterView?.addSubview(btn)
         
         var height = self.chatTable.contentInset.bottom
@@ -222,6 +218,13 @@ class CTChatViewController: CTViewController, UITableViewDelegate, UITableViewDa
             post.removeObserver(self, forKeyPath: "thumbnailData")
             self.chatTable.reloadData()
         })
+    }
+    
+    // MARK: - Invite 
+    func inviteUser(btn: UIButton) {
+        print("inviteUser")
+        let inviteVC = CTInviteViewController()
+        self.presentViewController(inviteVC, animated: true, completion: nil)
     }
     
     //MARK: - Camera helper
