@@ -127,13 +127,11 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
         
         self.placesTable = UITableView(frame: CGRect(x: 0, y: frame.size.height, width: frame.size.width, height: frame.size.height-y))
         self.placesTable.tag = Int(y)
-        self.placesTable.autoresizingMask = .FlexibleHeight
         self.placesTable.dataSource = self
         self.placesTable.delegate = self
         self.placesTable.backgroundColor = .clearColor()
-        self.placesTable.separatorStyle = .None
         self.placesTable.showsVerticalScrollIndicator = false
-        self.placesTable.registerClass(CTPlaceTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+        self.placesTable.registerClass(CTPlaceTableViewCell.classForCoder(), forCellReuseIdentifier:  "cellId")
         self.placesTable.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 20))
         
         view.addSubview(self.placesTable)
@@ -244,7 +242,6 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
                                 self.placesTable.frame = frame
                                 }, completion: nil
                             )
-                        
                     })
                 }
         })
@@ -260,7 +257,6 @@ class CTAccountViewController: CTViewController, UITableViewDelegate, UITableVie
         let height = CGFloat(44)
         var y = CGFloat(Constants.origin_y)
 
-        
         let buttonTitles = ["Sign Up", "Login"]
         for btnTitle in buttonTitles {
             let btn = CTButton(frame: CGRect(x: padding, y: y, width: width, height: height))
